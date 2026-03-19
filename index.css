@@ -8,6 +8,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  font-size: 16px;
+  transition: font-size 0.3s ease;
+}
+
 code {
   font-family:
     source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
@@ -181,7 +186,337 @@ code {
 }
 
 body {
-  background-color: var(--canvas);
-  color: var(--foreground);
+  --bg: #050609;
+  --primary: #FFB547;
+  --secondary: #FF9A32;
+  --accent: #FFD089;
+  --fg: #F9F4EA;
+  --fg-muted: rgba(249, 244, 234, 0.6);
+  --fg-secondary: rgba(255, 181, 71, 0.8);
+
+  background-color: var(--bg);
+  color: var(--fg);
   font-family: var(--font-sans);
+}
+
+header {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(17, 17, 20, 0.95));
+  border-bottom: 1px solid rgba(255, 181, 71, 0.4);
+  padding: 1rem 1.5rem;
+}
+
+header h1 {
+  margin: 0 0 0.5rem;
+  font-size: 1.75rem;
+  letter-spacing: 0.04em;
+  color: var(--primary);
+}
+
+header p {
+  margin: 0;
+  color: var(--fg-muted);
+  font-size: 0.95rem;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+nav > ul > li {
+  position: relative;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--fg);
+  font-size: 0.95rem;
+  padding: 0.25rem 0;
+}
+
+nav a:hover {
+  color: var(--primary);
+}
+
+nav ul ul {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: rgba(12, 10, 9, 0.98);
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 181, 71, 0.25);
+  display: none;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 11rem;
+  z-index: 100;
+}
+
+nav > ul > li:hover > ul {
+  display: flex;
+}
+
+main.layout-grid {
+  display: grid;
+  gap: 1.25rem;
+  padding: 1.25rem;
+  max-width: 1280px;
+  margin: 0 auto 2rem;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "z1"
+    "z2"
+    "z3"
+    "z6"
+    "z5"
+    "z8"
+    "z4"
+    "z7";
+}
+
+main.layout-grid section {
+  background: radial-gradient(circle at top left, rgba(255, 181, 71, 0.12), rgba(5, 6, 9, 0.95));
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid rgba(255, 181, 71, 0.25);
+}
+
+main.layout-grid h2 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+  letter-spacing: 0.03em;
+  color: var(--primary);
+}
+
+main.layout-grid p,
+main.layout-grid li {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--fg-muted);
+}
+
+/* ─── Zone labels ────────────────────────────────────────────── */
+.zona-label {
+  display: inline-block;
+  background: var(--primary, #FFB547);
+  color: var(--bg, #050609);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.15rem 0.6rem;
+  border-radius: 0.25rem;
+  margin: 0 0 0.5rem;
+}
+
+/* ─── Grid area assignments ──────────────────────────────────── */
+#viziune            { grid-area: z1; }
+#proiecte           { grid-area: z2; }
+#evenimente         { grid-area: z3; }
+#anunturi           { grid-area: z4; }
+#utilizatori-online { grid-area: z5; }
+#statistici-utilizator { grid-area: z6; }
+#site-server        { grid-area: z7; }
+#zona8              { grid-area: z8; }
+
+/* ─── Prevent horizontal overflow ────────────────────────────── */
+main.layout-grid section {
+  overflow: auto;
+}
+
+main.layout-grid table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+main.layout-grid iframe,
+main.layout-grid embed,
+main.layout-grid img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ─── Zona 1 – F-pattern hero / prezentare ───────────────────── */
+#viziune {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+#viziune h2 {
+  font-size: 1.6rem;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--primary, #FFB547);
+  padding-bottom: 0.5rem;
+}
+
+#viziune blockquote {
+  border-left: 3px solid var(--primary, #FFB547);
+  margin: 0.5rem 0;
+  padding: 0.5rem 1rem;
+  font-style: italic;
+  color: var(--fg-muted);
+}
+
+/* ─── Table styling ──────────────────────────────────────────── */
+main.layout-grid th,
+main.layout-grid td {
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 181, 71, 0.15);
+}
+
+main.layout-grid thead th {
+  color: var(--primary, #FFB547);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+main.layout-grid caption {
+  caption-side: top;
+  text-align: left;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--fg-muted);
+}
+
+main.layout-grid tfoot th,
+main.layout-grid tfoot td {
+  border-top: 2px solid rgba(255, 181, 71, 0.3);
+  font-weight: 700;
+}
+
+/* ─── Small screen – single column, no animations ────────────── */
+@media (max-width: 767px) {
+  html {
+    font-size: 14px;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+    transition-duration: 0s !important;
+  }
+
+  header h1 {
+    font-size: 1.25rem;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  nav ul ul {
+    position: static;
+    border: none;
+    padding-left: 1rem;
+  }
+
+  main.layout-grid {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  #viziune h2 {
+    font-size: 1.2rem;
+  }
+
+  footer iframe {
+    width: 100%;
+    height: 250px;
+  }
+}
+
+/* ─── Medium screen – 2 columns, different from large ────────── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  html {
+    font-size: 15px;
+  }
+
+  main.layout-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "z1 z1"
+      "z2 z3"
+      "z6 z5"
+      "z8 z8"
+      "z4 z7";
+  }
+
+  #viziune h2 {
+    font-size: 1.4rem;
+  }
+}
+
+/* ─── Large screen – 4 columns matching the grid layout image ── */
+@media (min-width: 1024px) {
+  html {
+    font-size: 16px;
+  }
+
+  main.layout-grid {
+    grid-template-columns: 1fr 1.2fr 1fr 1fr;
+    grid-template-areas:
+      "z1 z1 z1 z1"
+      "z2 z2 z8 z8"
+      "z3 z6 z8 z8"
+      "z5 z6 z8 z8"
+      "z5 z4 z4 z7";
+  }
+
+  #viziune h2 {
+    font-size: 1.6rem;
+  }
+}
+
+/* ─── Footer ─────────────────────────────────────────────────── */
+footer {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(17, 17, 20, 0.95));
+  border-top: 1px solid rgba(255, 181, 71, 0.4);
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+
+footer address {
+  font-style: normal;
+  margin-bottom: 1.5rem;
+  line-height: 1.8;
+}
+
+footer address p {
+  font-weight: 600;
+  color: var(--primary, #FFB547);
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+}
+
+footer a {
+  color: var(--primary, #FFB547);
+}
+
+footer a:hover {
+  color: var(--accent, #FFD089);
+}
+
+footer iframe {
+  max-width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 181, 71, 0.25);
+  margin-bottom: 1rem;
+}
+
+footer > p {
+  margin: 0.75rem 0;
+  color: var(--fg-muted);
 }

@@ -4,6 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Roland Teslaru">
     <meta name="description"
         content="Aegis Dynamics ofera solutii de aparare, securitate nationala, inovatie militara si tehnologie aerospatiala. Platforma B2G pentru tehnica militara si armament greu.">
@@ -18,6 +19,7 @@
     <link rel="mask-icon" href="resurse/ico/safari-pinned-tab.svg" color="#1a1a1a">
     <meta name="msapplication-TileColor" content="#2b5797">
     <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body id="top">
     <header>
@@ -41,8 +43,9 @@
         <p>Expertiza <strong>B2G</strong> pentru excelenta si <strong>inovatie militara</strong> globala.</p>
     </header>
 
-    <main>
+    <main class="layout-grid">
         <section id="viziune">
+            <h3 class="zona-label">Zona 1</h3>
             <h2>Inovatie militara si Tehnologie aerospatiala</h2>
             <p>Suntem un reputat <strong>defense contractor</strong> global, dedicat protejarii valorilor democratice
                 printr-o <strong>tehnologie aerospatiala</strong> avansata si <strong>echipament tactic</strong> de
@@ -64,57 +67,8 @@
             </article>
         </section>
 
-        <section id="evenimente">
-            <h2>Evenimente si Expozitii Militare</h2>
-            <ul>
-                <li><b>Expozitie Aero Defense</b> - <time datetime="2026-05-15T10:00">15 Mai ora 10:00</time> -
-                    demonstratie de zbor a noilor drone UAV destinate supravegherii.</li>
-                <li><b>Testare Sisteme Terestre</b> - <time datetime="2026-06-20T08:30">20 Iunie ora 08:30</time> -
-                    poligonul de testare pentru noile tancuri hibride.</li>
-                <li><b>Conferinta FMS</b> - <time datetime="2026-09-10T14:00">10 Septembrie ora 14:00</time> - sesiuni
-                    informative privind procedurile de <strong>armament greu</strong>.</li>
-            </ul>
-        </section>
-
-        <section id="media">
-            <h2>Resurse Tehnice si Media</h2>
-
-            <div id="video-links">
-                <a href="https://www.youtube.com/embed/na-huvacMKQ?autoplay=1&start=78" target="playerAegis">Prezentare F-35 Lightning II</a> |
-                <a href="https://www.youtube.com/embed/EEXI6r08908?autoplay=1&start=2" target="playerAegis">Sisteme UAV in actiune</a> |
-                <a href="https://www.youtube.com/embed/orbzTpqlBok" target="playerAegis">Reveniti la video initial (Armament Greu)</a>
-            </div>
-            <iframe name="playerAegis" width="560" height="315" src="https://www.youtube.com/embed/orbzTpqlBok"
-                title="YouTube video player"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-
-            <p>
-                Analizati rapoartele noastre externe:
-                <a href="https://www.defense.gov" target="_blank">Departamentul de Aparare (Sursa Externa)</a>.<br>
-            </p>
-            <p>
-                <a href="https://developers.google.com/youtube/player_parameters#autoplay">https://developers.google.com<wbr>/youtube<wbr>/player_parameters<wbr>#autoplay</a>
-            </p>
-            <p>
-                <a href="resurse/imagini/f35_large.jpg"><img src="resurse/imagini/f35_thumb.jpg"
-                        alt="Click pentru varianta mare a aeronavei"></a><br>
-                <a href="resurse/fisiere/brosura_aegis.pdf" download="aegis_informatii_clasificate.pdf">Descarca brosura
-                    de <strong>tehnica militara</strong></a>
-            </p>
-
-            <figure>
-                <picture>
-                    <source media="(min-width: 1024px)" srcset="resurse/imagini/f35_large.jpg">
-                    <source media="(min-width: 768px)" srcset="resurse/imagini/f35_medium.jpg">
-                    <img src="resurse/imagini/f35_small.jpg" alt="Aeronava F-35"
-                        title="Aeronava F-35 Lightning II executand manevre tactice">
-                </picture>
-                <figcaption>Testarea flotilei aeriene Aegis in conditii meteo extreme.</figcaption>
-            </figure>
-        </section>
-
         <section id="proiecte">
+            <h3 class="zona-label">Zona 2</h3>
             <h2>Proiecte in Derulare si Stadiu Livrari</h2>
 
             <details>
@@ -200,25 +154,109 @@
                 </tfoot>
             </table>
         </section>
-        <section id="documente">
-            <h2>Documente tehnice PDF</h2>
-            <embed src="resurse/fisiere/brosura_aegis.pdf" type="application/pdf" height="600" style="width:100%">
+
+        <section id="evenimente">
+            <h3 class="zona-label">Zona 3</h3>
+            <h2>Evenimente si Expozitii Militare</h2>
+            <ul>
+                <li><b>Expozitie Aero Defense</b> - <time datetime="2026-05-15T10:00">15 Mai ora 10:00</time> -
+                    demonstratie de zbor a noilor drone UAV destinate supravegherii.</li>
+                <li><b>Testare Sisteme Terestre</b> - <time datetime="2026-06-20T08:30">20 Iunie ora 08:30</time> -
+                    poligonul de testare pentru noile tancuri hibride.</li>
+                <li><b>Conferinta FMS</b> - <time datetime="2026-09-10T14:00">10 Septembrie ora 14:00</time> - sesiuni
+                    informative privind procedurile de <strong>armament greu</strong>.</li>
+            </ul>
         </section>
-        <section id="harta-imaginii">
-            <h2>Schema interactiva aeronava</h2>
-            <img src="resurse/imagini/f35_large.jpg" alt="Schema aeronava F-35" usemap="#schema-f35" width="800">
-            <map name="schema-f35">
-                <area shape="rect" coords="60,60,300,200" href="#viziune" alt="Cockpit si avionica">
-                <area shape="rect" coords="500,350,780,520" href="#proiecte" alt="Sisteme tactice si livrari">
-            </map>
+
+        <section id="anunturi">
+            <h3 class="zona-label">Zona 4</h3>
+            <h2>Anunturi oficiale</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti.</p>
         </section>
-        <section id="playlist-youtube">
-            <h2>Playlist YouTube demonstrativ</h2>
-            <iframe name="playlistAegis" width="560" height="315"
-                src="https://www.youtube.com/embed/BtLLXKJ7TJM?autoplay=1&loop=1&controls=1&listType=playlist&list=PLGFwY01RkHY5JdHeLn9cypugxPJCReJgZ"
-                title="Playlist video demonstrativ"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
+
+        <section id="utilizatori-online">
+            <h3 class="zona-label">Zona 5</h3>
+            <h2>Utilizatori online</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vehicula sapien nec urna volutpat, non
+                facilisis nisl cursus.</p>
+        </section>
+
+        <section id="statistici-utilizator">
+            <h3 class="zona-label">Zona 6</h3>
+            <h2>Date despre utilizator si statistici</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas varius, ligula in facilisis dapibus,
+                sapien nisi pharetra enim, at placerat nisl tortor sed purus.</p>
+        </section>
+
+        <section id="site-server">
+            <h3 class="zona-label">Zona 7</h3>
+            <h2>Date despre site si server</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sed magna vel lorem tempor mattis.
+                Integer at tellus eget odio vulputate pulvinar.</p>
+        </section>
+
+        <section id="zona8">
+            <h3 class="zona-label">Zona 8</h3>
+            <section id="media">
+                <h2>Resurse Tehnice si Media</h2>
+
+                <div id="video-links">
+                    <a href="https://www.youtube.com/embed/na-huvacMKQ?autoplay=1&start=78" target="playerAegis">Prezentare F-35 Lightning II</a> |
+                    <a href="https://www.youtube.com/embed/EEXI6r08908?autoplay=1&start=2" target="playerAegis">Sisteme UAV in actiune</a> |
+                    <a href="https://www.youtube.com/embed/orbzTpqlBok" target="playerAegis">Reveniti la video initial (Armament Greu)</a>
+                </div>
+                <iframe name="playerAegis" width="560" height="315" src="https://www.youtube.com/embed/orbzTpqlBok"
+                    title="YouTube video player"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+
+                <p>
+                    Analizati rapoartele noastre externe:
+                    <a href="https://www.defense.gov" target="_blank">Departamentul de Aparare (Sursa Externa)</a>.<br>
+                </p>
+                <p>
+                    <a href="https://developers.google.com/youtube/player_parameters#autoplay">https://developers.google.com<wbr>/youtube<wbr>/player_parameters<wbr>#autoplay</a>
+                </p>
+                <p>
+                    <a href="resurse/imagini/f35_large.jpg"><img src="resurse/imagini/f35_thumb.jpg"
+                            alt="Click pentru varianta mare a aeronavei"></a><br>
+                    <a href="resurse/fisiere/brosura_aegis.pdf" download="aegis_informatii_clasificate.pdf">Descarca brosura
+                        de <strong>tehnica militara</strong></a>
+                </p>
+
+                <figure>
+                    <picture>
+                        <source media="(min-width: 1024px)" srcset="resurse/imagini/f35_large.jpg">
+                        <source media="(min-width: 768px)" srcset="resurse/imagini/f35_medium.jpg">
+                        <img src="resurse/imagini/f35_small.jpg" alt="Aeronava F-35"
+                            title="Aeronava F-35 Lightning II executand manevre tactice">
+                    </picture>
+                    <figcaption>Testarea flotilei aeriene Aegis in conditii meteo extreme.</figcaption>
+                </figure>
+            </section>
+
+            <section id="documente">
+                <h2>Documente tehnice PDF</h2>
+                <embed src="resurse/fisiere/brosura_aegis.pdf" type="application/pdf" height="600" style="width:100%">
+            </section>
+
+            <section id="harta-imaginii">
+                <h2>Schema interactiva aeronava</h2>
+                <img src="resurse/imagini/f35_large.jpg" alt="Schema aeronava F-35" usemap="#schema-f35" width="800">
+                <map name="schema-f35">
+                    <area shape="rect" coords="60,60,300,200" href="#viziune" alt="Cockpit si avionica">
+                    <area shape="rect" coords="500,350,780,520" href="#proiecte" alt="Sisteme tactice si livrari">
+                </map>
+            </section>
+
+            <section id="playlist-youtube">
+                <h2>Playlist YouTube demonstrativ</h2>
+                <iframe name="playlistAegis" width="560" height="315"
+                    src="https://www.youtube.com/embed/BtLLXKJ7TJM?autoplay=1&loop=1&controls=1&listType=playlist&list=PLGFwY01RkHY5JdHeLn9cypugxPJCReJgZ"
+                    title="Playlist video demonstrativ"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+            </section>
         </section>
     </main>
 
