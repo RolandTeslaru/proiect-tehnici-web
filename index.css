@@ -193,6 +193,22 @@ body {
   --fg: #F9F4EA;
   --fg-muted: rgba(249, 244, 234, 0.6);
   --fg-secondary: rgba(255, 181, 71, 0.8);
+  --surface-strong-start: rgba(0, 0, 0, 0.9);
+  --surface-strong-end: rgba(17, 17, 20, 0.95);
+  --surface-overlay: rgba(12, 10, 9, 0.98);
+  --panel-highlight: rgba(255, 181, 71, 0.12);
+  --panel-base: rgba(5, 6, 9, 0.95);
+  --border-strong: rgba(255, 181, 71, 0.4);
+  --border-medium: rgba(255, 181, 71, 0.3);
+  --border-soft: rgba(255, 181, 71, 0.25);
+  --border-subtle: rgba(255, 181, 71, 0.15);
+  --page-space-x: 1.5rem;
+  --grid-gap: 1.25rem;
+  --zone-padding-block: 1.25rem;
+  --zone-padding-inline: 1.5rem;
+  --media-fluid-width: 100%;
+  --media-min-width: 14rem;
+  --media-max-width: 100%;
 
   background-color: var(--bg);
   color: var(--fg);
@@ -200,16 +216,19 @@ body {
 }
 
 header {
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(17, 17, 20, 0.95));
-  border-bottom: 1px solid rgba(255, 181, 71, 0.4);
-  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, var(--surface-strong-start), var(--surface-strong-end));
+  border-bottom: 1px solid var(--border-strong);
+  padding: var(--zone-padding-block) var(--zone-padding-inline);
 }
 
 header h1 {
   margin: 0 0 0.5rem;
   font-size: 1.75rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
   letter-spacing: 0.04em;
   color: var(--primary);
+  text-transform: uppercase;
 }
 
 header p {
@@ -246,10 +265,10 @@ nav ul ul {
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: rgba(12, 10, 9, 0.98);
+  background-color: var(--surface-overlay);
   padding: 0.5rem 0.75rem;
   border-radius: 0.5rem;
-  border: 1px solid rgba(255, 181, 71, 0.25);
+  border: 1px solid var(--border-soft);
   display: none;
   flex-direction: column;
   gap: 0.25rem;
@@ -263,8 +282,8 @@ nav > ul > li:hover > ul {
 
 main.layout-grid {
   display: grid;
-  gap: 1.25rem;
-  padding: 1.25rem;
+  gap: var(--grid-gap);
+  padding: var(--zone-padding-block) var(--page-space-x);
   max-width: 1280px;
   margin: 0 auto 2rem;
   grid-template-columns: 1fr;
@@ -280,10 +299,10 @@ main.layout-grid {
 }
 
 main.layout-grid section {
-  background: radial-gradient(circle at top left, rgba(255, 181, 71, 0.12), rgba(5, 6, 9, 0.95));
+  background: radial-gradient(circle at top left, var(--panel-highlight), var(--panel-base));
   border-radius: 0.75rem;
-  padding: 1.25rem 1.5rem;
-  border: 1px solid rgba(255, 181, 71, 0.25);
+  padding: var(--zone-padding-block) var(--zone-padding-inline);
+  border: 1px solid var(--border-soft);
 }
 
 main.layout-grid h2 {
@@ -304,8 +323,8 @@ main.layout-grid li {
 /* ─── Zone labels ────────────────────────────────────────────── */
 .zona-label {
   display: inline-block;
-  background: var(--primary, #FFB547);
-  color: var(--bg, #050609);
+  background: var(--primary);
+  color: var(--bg);
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -330,16 +349,26 @@ main.layout-grid section {
   overflow: auto;
 }
 
+/* ─── Table container with horizontal scroll ────────────────── */
+.table-container {
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
 main.layout-grid table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   font-size: 0.9rem;
+  border: 5px inset var(--border-strong);
 }
 
 main.layout-grid iframe,
 main.layout-grid embed,
 main.layout-grid img {
-  max-width: 100%;
+  width: var(--media-fluid-width);
+  min-width: var(--media-min-width);
+  max-width: var(--media-max-width);
   height: auto;
 }
 
@@ -350,15 +379,28 @@ main.layout-grid img {
   gap: 0.75rem;
 }
 
+/* ─── Zona 8 – Media section spacing ─────────────────────────── */
+#zona8 {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+#zona8 > section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
 #viziune h2 {
   font-size: 1.6rem;
   letter-spacing: 0.05em;
-  border-bottom: 2px solid var(--primary, #FFB547);
+  border-bottom: 2px solid var(--primary);
   padding-bottom: 0.5rem;
 }
 
 #viziune blockquote {
-  border-left: 3px solid var(--primary, #FFB547);
+  border-left: 3px solid var(--primary);
   margin: 0.5rem 0;
   padding: 0.5rem 1rem;
   font-style: italic;
@@ -368,34 +410,121 @@ main.layout-grid img {
 /* ─── Table styling ──────────────────────────────────────────── */
 main.layout-grid th,
 main.layout-grid td {
-  padding: 0.5rem 0.75rem;
+  padding: 0.75rem 1rem;
   text-align: left;
-  border-bottom: 1px solid rgba(255, 181, 71, 0.15);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 main.layout-grid thead th {
-  color: var(--primary, #FFB547);
+  color: var(--primary);
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
+  background-color: rgba(255, 181, 71, 0.1);
 }
 
+/* Caption positioned below table */
 main.layout-grid caption {
-  caption-side: top;
-  text-align: left;
-  margin-bottom: 0.5rem;
+  caption-side: bottom;
+  text-align: center;
+  margin-top: 0.75rem;
   font-weight: 600;
   color: var(--fg-muted);
+  font-style: italic;
 }
 
 main.layout-grid tfoot th,
 main.layout-grid tfoot td {
-  border-top: 2px solid rgba(255, 181, 71, 0.3);
+  border-top: 2px solid var(--border-medium);
   font-weight: 700;
+  background-color: rgba(255, 181, 71, 0.15);
+}
+
+/* Alternating border colors between rows */
+#tabel-proiecte tbody tr:nth-child(odd) {
+  border-bottom: 1px solid var(--primary);
+}
+
+#tabel-proiecte tbody tr:nth-child(even) {
+  border-bottom: 1px solid var(--secondary);
+}
+
+/* Row hover effect with outline transition */
+#tabel-proiecte tbody tr {
+  outline: 0px solid rgba(255, 181, 71, 0);
+  outline-offset: -5px;
+  transition: outline 0.5s ease;
+}
+
+#tabel-proiecte tbody tr:hover {
+  outline: 5px solid rgba(255, 181, 71, 0.7);
+  outline-offset: -5px;
+}
+
+/* ─── Iframe tabs styling ────────────────────────────────────── */
+.container-iframe {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 1.5rem 0;
+}
+
+.taburi-iframe {
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+  flex-wrap: wrap;
+}
+
+.taburi-iframe a {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: var(--secondary);
+  color: var(--foreground);
+  text-decoration: none;
+  border: 2px solid var(--border-strong);
+  border-bottom: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background 0.3s ease, color 0.3s ease;
+  min-width: 150px;
+  text-align: center;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  margin-right: -2px;
+}
+
+.taburi-iframe a:hover {
+  background: var(--primary);
+  color: var(--bg);
+}
+
+.taburi-iframe a:active,
+.taburi-iframe a:focus {
+  background: var(--primary-hover);
+  color: var(--fg);
+  outline: none;
+}
+
+.container-iframe iframe {
+  width: 100%;
+  max-width: 100%;
+  min-height: 315px;
+  border: 2px solid var(--border-strong);
+  border-radius: 0 8px 8px 8px;
+  background: var(--bg);
 }
 
 /* ─── Small screen – single column, no animations ────────────── */
 @media (max-width: 767px) {
+  body {
+    --page-space-x: 0.75rem;
+    --grid-gap: 0.75rem;
+    --zone-padding-block: 0.9rem;
+    --zone-padding-inline: 0.75rem;
+    --media-min-width: 0;
+  }
+
   html {
     font-size: 14px;
   }
@@ -405,7 +534,6 @@ main.layout-grid tfoot td {
   *::after {
     animation-duration: 0s !important;
     animation-delay: 0s !important;
-    transition-duration: 0s !important;
   }
 
   header h1 {
@@ -424,8 +552,8 @@ main.layout-grid tfoot td {
   }
 
   main.layout-grid {
-    padding: 1rem;
-    gap: 1rem;
+    padding: var(--zone-padding-block) var(--page-space-x);
+    gap: var(--grid-gap);
   }
 
   #viziune h2 {
@@ -433,13 +561,30 @@ main.layout-grid tfoot td {
   }
 
   footer iframe {
-    width: 100%;
     height: 250px;
+  }
+
+  /* Table scrollbar on small screens */
+  .table-container {
+    overflow-x: auto;
+    max-width: 100%;
+  }
+
+  #tabel-proiecte {
+    min-width: 600px;
   }
 }
 
 /* ─── Medium screen – 2 columns, different from large ────────── */
 @media (min-width: 768px) and (max-width: 1023px) {
+  body {
+    --page-space-x: 1rem;
+    --grid-gap: 1rem;
+    --zone-padding-block: 1.05rem;
+    --zone-padding-inline: 1rem;
+    --media-min-width: 12rem;
+  }
+
   html {
     font-size: 15px;
   }
@@ -459,7 +604,7 @@ main.layout-grid tfoot td {
   }
 }
 
-/* ─── Large screen – 4 columns matching the grid layout image ── */
+/* ─── ecran mare – 4 coloane  ── */
 @media (min-width: 1024px) {
   html {
     font-size: 16px;
@@ -482,9 +627,9 @@ main.layout-grid tfoot td {
 
 /* ─── Footer ─────────────────────────────────────────────────── */
 footer {
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(17, 17, 20, 0.95));
-  border-top: 1px solid rgba(255, 181, 71, 0.4);
-  padding: 2rem 1.5rem;
+  background: linear-gradient(135deg, var(--surface-strong-start), var(--surface-strong-end));
+  border-top: 1px solid var(--border-strong);
+  padding: var(--zone-padding-block) var(--zone-padding-inline);
   text-align: center;
 }
 
@@ -496,23 +641,25 @@ footer address {
 
 footer address p {
   font-weight: 600;
-  color: var(--primary, #FFB547);
+  color: var(--primary);
   margin: 0 0 0.5rem;
   font-size: 1.1rem;
 }
 
 footer a {
-  color: var(--primary, #FFB547);
+  color: var(--primary);
 }
 
 footer a:hover {
-  color: var(--accent, #FFD089);
+  color: var(--accent);
 }
 
 footer iframe {
-  max-width: 100%;
+  width: var(--media-fluid-width);
+  min-width: var(--media-min-width);
+  max-width: var(--media-max-width);
   border-radius: 0.5rem;
-  border: 1px solid rgba(255, 181, 71, 0.25);
+  border: 1px solid var(--border-soft);
   margin-bottom: 1rem;
 }
 
