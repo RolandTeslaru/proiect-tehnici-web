@@ -18,6 +18,8 @@ code {
     source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
+/* scrollbar */
+
 *::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -38,43 +40,39 @@ code {
   background-color: var(--placeholder-foreground);
 }
 
-/* ─── Light theme ───────────────────────────────────────────────── */
+
+/* Light mode */
 :root {
   /* Core */
-  --background:          #e5e7eb;          /* gray-200   */
+  --background:          #e5e7eb;  
   --foreground:          #2C1810;
   --card:                #ffffff;
-  --card-foreground:     #57534e;          /* stone-600  */
-  --popover:             #fafaf9;          /* stone-50   */
+  --card-foreground:     #57534e;   
+  --popover:             #fafaf9;          
   --popover-foreground:  #000000;
 
-  /* Primary – orange */
-  --primary:             #f97316;          /* orange-500 */
+  --primary:             #f97316;          
   --primary-foreground:  #ffffff;
-  --primary-accent:      #fdba74;          /* orange-300 */
-  --primary-hover:       #ea580c;          /* orange-600 */
+  --primary-accent:      #fdba74;          
+  --primary-hover:       #ea580c;          
   --ring:                #f97316;
 
-  /* Secondary */
   --secondary:           #ededed;
   --secondary-foreground:#3D2117;
   --secondary-hover:     #E0D0C0;
 
-  /* Accent */
-  --accent:              #d4d4d4;          /* neutral-300 */
-  --accent-foreground:   #404040;          /* neutral-700 */
+  --accent:              #d4d4d4;     
+  --accent-foreground:   #404040;      
 
-  /* Destructive */
-  --destructive:         #dc2626;          /* red-600    */
+  --destructive:         #dc2626;       
   --destructive-foreground: #ffffff;
 
-  /* Borders / inputs */
-  --border:              #d6d3d1;          /* stone-300  */
-  --muted:               #e5e5e5;          /* neutral-200 */
-  --muted-foreground:    #737373;          /* neutral-500 */
-  --input:               #fafafa;          /* neutral-50  */
+  --border:              #d6d3d1;       
+  --muted:               #e5e5e5;       
+  --muted-foreground:    #737373;       
+  --input:               #fafafa;       
 
-  /* Radius scale */
+  /* Radius */
   --radius:     0.875rem;
   --radius-xs:  calc(var(--radius) - 6px);
   --radius-sm:  calc(var(--radius) - 4px);
@@ -85,68 +83,62 @@ code {
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
 
-  /* Status colors */
   --status-green:  oklch(0.55 0.18 145);
   --status-red:    oklch(0.55 0.22 25);
   --status-yellow: oklch(0.70 0.15 85);
   --status-gray:   oklch(0.55 0.01 50);
   --status-blue:   oklch(0.55 0.18 240);
 
-  /* Error states */
   --error:                  oklch(0.577 0.245 27.325);
   --error-background:       #FDECEA;
   --error-foreground:       oklch(0.4 0.2 27);
   --error-red:              oklch(0.55 0.24 27);
   --error-red-border:       oklch(0.65 0.22 27);
 
-  /* Success states */
   --success-background: #E8F5E5;
   --success-foreground: oklch(0.35 0.18 145);
 
-  /* Warning states */
   --warning:          oklch(0.75 0.15 85);
   --warning-foreground: oklch(0.3 0.12 85);
   --warning-text:     oklch(0.4 0.15 85);
 
-  /* Info states */
   --info-background: #E5F0FA;
   --info-foreground: oklch(0.35 0.18 240);
 
-  /* Typography */
   --font-sans:  'Inter', system-ui, sans-serif;
   --font-mono:  'Courier New', monospace;
   --font-chivo: 'Chivo', system-ui, sans-serif;
 }
 
-/* ─── Dark theme ────────────────────────────────────────────────── */
+/* Dark mode */
 .dark {
-  --background:          #0c0a09;          /* stone-950  */
+  --background:          #0c0a09; 
   --foreground:          #ffffff;
-  --card:                #292524;          /* stone-800  */
+  --card:                #292524; 
   --card-foreground:     #ffffff;
   --popover:             #292524;
-  --popover-foreground:  #f5f5f4;          /* stone-100  */
+  --popover-foreground:  #f5f5f4; 
 
-  --primary:             #f97316;          /* orange-500 */
+  --primary:             #f97316; 
   --primary-foreground:  #ffffff;
-  --primary-accent:      #fb923c;          /* orange-400 */
-  --primary-hover:       #f59e0b;          /* amber-500  */
+  --primary-accent:      #fb923c; 
+  --primary-hover:       #f59e0b; 
   --ring:                #f97316;
 
   --secondary:           #2e2e2d;
   --secondary-foreground:#ffffff;
   --secondary-hover:     oklch(0.3 0.02 264);
 
-  --muted:               #292524;          /* stone-800  */
-  --muted-foreground:    #a3a3a3;          /* neutral-400 */
+  --muted:               #292524; 
+  --muted-foreground:    #a3a3a3; 
 
-  --accent:              #404040;          /* neutral-700 */
+  --accent:              #404040; 
   --accent-foreground:   #ffffff;
 
-  --destructive:         #dc2626;          /* red-600    */
+  --destructive:         #dc2626; 
   --destructive-foreground: #ffffff;
 
-  --border:              #44403c;          /* stone-700  */
+  --border:              #44403c; 
   --input:               #44403c;
 
   /* Canvas */
@@ -320,7 +312,7 @@ main.layout-grid li {
   color: var(--fg-muted);
 }
 
-/* ─── Zone labels ────────────────────────────────────────────── */
+
 .zona-label {
   display: inline-block;
   background: var(--primary);
@@ -334,7 +326,6 @@ main.layout-grid li {
   margin: 0 0 0.5rem;
 }
 
-/* ─── Grid area assignments ──────────────────────────────────── */
 #viziune            { grid-area: z1; }
 #proiecte           { grid-area: z2; }
 #evenimente         { grid-area: z3; }
@@ -344,12 +335,10 @@ main.layout-grid li {
 #site-server        { grid-area: z7; }
 #zona8              { grid-area: z8; }
 
-/* ─── Prevent horizontal overflow ────────────────────────────── */
 main.layout-grid section {
   overflow: auto;
 }
 
-/* ─── Table container with horizontal scroll ────────────────── */
 .table-container {
   overflow-x: auto;
   margin: 1rem 0;
@@ -372,14 +361,12 @@ main.layout-grid img {
   height: auto;
 }
 
-/* ─── Zona 1 – F-pattern hero / prezentare ───────────────────── */
 #viziune {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
-/* ─── Zona 8 – Media section spacing ─────────────────────────── */
 #zona8 {
   display: flex;
   flex-direction: column;
@@ -407,7 +394,7 @@ main.layout-grid img {
   color: var(--fg-muted);
 }
 
-/* ─── Table styling ──────────────────────────────────────────── */
+/* tabel */
 main.layout-grid th,
 main.layout-grid td {
   padding: 0.75rem 1rem;
@@ -423,7 +410,6 @@ main.layout-grid thead th {
   background-color: rgba(255, 181, 71, 0.1);
 }
 
-/* Caption positioned below table */
 main.layout-grid caption {
   caption-side: bottom;
   text-align: center;
@@ -440,7 +426,6 @@ main.layout-grid tfoot td {
   background-color: rgba(255, 181, 71, 0.15);
 }
 
-/* Alternating border colors between rows */
 #tabel-proiecte tbody tr:nth-child(odd) {
   border-bottom: 1px solid var(--primary);
 }
@@ -449,7 +434,6 @@ main.layout-grid tfoot td {
   border-bottom: 1px solid var(--secondary);
 }
 
-/* Row hover effect with outline transition */
 #tabel-proiecte tbody tr {
   outline: 0px solid rgba(255, 181, 71, 0);
   outline-offset: -5px;
@@ -461,7 +445,7 @@ main.layout-grid tfoot td {
   outline-offset: -5px;
 }
 
-/* ─── Iframe tabs styling ────────────────────────────────────── */
+/* iframe */
 .container-iframe {
   display: flex;
   flex-direction: column;
@@ -478,20 +462,21 @@ main.layout-grid tfoot td {
 
 .taburi-iframe a {
   display: inline-block;
-  padding: 0.75rem 1.5rem;
+  padding: 0.4rem 0.5rem;
   background: var(--secondary);
   color: var(--foreground);
   text-decoration: none;
   border: 2px solid var(--border-strong);
   border-bottom: none;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   transition: background 0.3s ease, color 0.3s ease;
-  min-width: 150px;
+  min-width: auto;
   text-align: center;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   margin-right: -2px;
+  white-space: nowrap;
 }
 
 .taburi-iframe a:hover {
@@ -515,7 +500,7 @@ main.layout-grid tfoot td {
   background: var(--bg);
 }
 
-/* ─── Small screen – single column, no animations ────────────── */
+/* small screen – single column, no animations */
 @media (max-width: 767px) {
   body {
     --page-space-x: 0.75rem;
@@ -564,7 +549,7 @@ main.layout-grid tfoot td {
     height: 250px;
   }
 
-  /* Table scrollbar on small screens */
+  /* table scrollbar on small screens */
   .table-container {
     overflow-x: auto;
     max-width: 100%;
@@ -575,7 +560,7 @@ main.layout-grid tfoot td {
   }
 }
 
-/* ─── Medium screen – 2 columns, different from large ────────── */
+/* medium screen – 2 columns, different from large */
 @media (min-width: 768px) and (max-width: 1023px) {
   body {
     --page-space-x: 1rem;
@@ -604,7 +589,7 @@ main.layout-grid tfoot td {
   }
 }
 
-/* ─── ecran mare – 4 coloane  ── */
+/* ecran mare – 4 coloane  ── */
 @media (min-width: 1024px) {
   html {
     font-size: 16px;
@@ -625,7 +610,7 @@ main.layout-grid tfoot td {
   }
 }
 
-/* ─── Footer ─────────────────────────────────────────────────── */
+/* footer */
 footer {
   background: linear-gradient(135deg, var(--surface-strong-start), var(--surface-strong-end));
   border-top: 1px solid var(--border-strong);
@@ -666,4 +651,46 @@ footer iframe {
 footer > p {
   margin: 0.75rem 0;
   color: var(--fg-muted);
+}
+
+/* back to top button */
+#link-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  background: var(--secondary);
+  border: 3px solid var(--border-strong);
+  border-radius: 12px;
+  transform: rotate(45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  opacity: 0.7;
+  transition: all 0.4s ease;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+#link-top:hover {
+  opacity: 1;
+  background: var(--primary);
+  border-color: var(--primary-hover);
+  transform: rotate(45deg) scale(1.1);
+}
+
+#triunghi {
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 20px solid var(--primary);
+  transform: rotate(-45deg);
+  transition: border-bottom-color 0.4s ease;
+}
+
+#link-top:hover #triunghi {
+  border-bottom-color: var(--fg);
 }
