@@ -31,20 +31,51 @@
 <body id="top">
     <header>
         <h1><i class="fas fa-shield-halved"></i> Aegis Dynamics: Lider in solutii de aparare</h1>
-        <nav>
-            <ul>
-                <li>
-                    <a href="index.html">Acasa</a>
-                    <ul>
+        <nav id="main-nav">
+            <input type="checkbox" id="burger-menu-toggle" aria-label="Toggle menu">
+            <label for="burger-menu-toggle" class="burger-menu-icon" aria-label="Deschide meniu">
+                <div class="hamburger-container">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </label>
+            <ul class="menu-list">
+                <li class="menu-item link-acasa">
+                    <a href="index.html">
+                        <i class="fa-solid fa-house"></i>
+                        <span class="menu-text">Acasa</span>
+                    </a>
+                    <ul class="submenu">
                         <li><a href="#viziune">Viziune si Inovatie</a></li>
-                        <li><a href="#evenimente">Evenimente Oficiale</a></li>
-                        <li><a href="#media">Media & Prezentare</a></li>
                         <li><a href="#proiecte">Stadiu Proiecte</a></li>
+                        <li><a href="#evenimente">Evenimente Oficiale</a></li>
+                        <li><a href="#zona8">Resurse si Media</a></li>
                     </ul>
                 </li>
-                <li><a href="catalog.html">Catalog Produse (Divizia Militara)</a></li>
-                <li><a href="contractare.html">Contractare Guvernamentala (FMS)</a></li>
-                <li><a href="contact.html">Portal Securizat / Contact</a></li>
+                <li class="menu-item link-portofoliu">
+                    <a href="#">
+                        <i class="fa-solid fa-briefcase"></i>
+                        <span class="menu-text">Divizii si Cataloage</span>
+                    </a>
+                    <ul class="submenu">
+                        <li><a href="catalog.html">Catalog Produse (Divizia Militara)</a></li>
+                        <li><a href="contractare.html">Contractare Guvernamentala (FMS)</a></li>
+                        <li><a href="cibernetic.html">Securitate Cibernetica (Pilot)</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item link-contact">
+                    <a href="contact.html">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span class="menu-text">Portal Securizat / Contact</span>
+                    </a>
+                </li>
+                <li class="menu-item link-anunturi">
+                    <a href="#anunturi">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="menu-text">Anunturi Importante</span>
+                    </a>
+                </li>
             </ul>
         </nav>
         <p>Expertiza <strong>B2G</strong> pentru excelenta si <strong>inovatie militara</strong> globala.</p>
@@ -292,10 +323,11 @@
 
         <p>
             <small>
-                &copy; <time datetime="2026-03-02">2 martie 2026</time> - Aegis Dynamics B2G. Toate drepturile
-                rezervate.
+                &copy; <time datetime="2026-03-02">2 martie 2026</time> - Aegis Dynamics B2G. Toate drepturile rezervate.
             </small>
         </p>
+
+        <p id="banner-proiect">Acesta este un proiect școlar!</p>
     </footer>
 
     <a href="#top" id="link-top" title="Inapoi la inceputul paginii">

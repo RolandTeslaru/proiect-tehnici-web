@@ -1,0 +1,316 @@
+// Variables
+$transition-speed: 0.4s;
+
+// Classes/Extends
+%flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+nav#main-nav {
+  position: relative;
+  z-index: 1000;
+  width: 100%;
+
+  // Hamburger Toggle and Icon
+  #burger-menu-toggle {
+    display: none;
+  }
+
+  .burger-menu-icon {
+    display: none;
+    cursor: pointer;
+    font-size: 1.75rem;
+    color: var(--primary);
+    padding: 0.5rem;
+  }
+
+  // The main menu list
+  .menu-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    width: 100%;
+
+    .menu-item {
+      position: relative;
+      @extend %flex-center;
+
+      > a {
+        text-decoration: none;
+        color: var(--fg);
+        font-size: 0.95rem;
+        padding: 0.75rem 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        position: relative;
+        overflow: hidden;
+        border-radius: 0.5rem;
+        transition: color $transition-speed ease;
+
+        // Rectangle transparent hover (::before)
+        &::before {
+          content: "";
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 100%;
+          height: 100%;
+          background: rgba(255, 181, 71, 0.15); // o culoare diferita de button, usor transparenta
+          transform: translate(-50%, -50%) scale(0);
+          transition: transform $transition-speed ease;
+          border-radius: 0.5rem;
+          z-index: -1;
+        }
+
+        &:hover {
+          color: var(--primary);
+          &::before {
+            transform: translate(-50%, -50%) scale(1);
+          }
+        }
+        
+        i {
+          font-size: 1.1rem;
+        }
+      }
+
+      // Submenu base styles
+      .submenu {
+        list-style: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: var(--surface-overlay);
+        padding: 0.5rem 0;
+        border-radius: 0.5rem;
+        border: 1px solid var(--border-soft);
+        min-width: 15rem;
+        z-index: 100;
+        
+        // Deschidere submeniu: scale 0 from top-left -> scale 1
+        transform-origin: top left;
+        transform: scale(0);
+        visibility: hidden;
+        opacity: 0;
+        transition: transform $transition-speed ease, opacity $transition-speed ease, visibility $transition-speed ease;
+        display: flex;
+        flex-direction: column;
+
+        li {
+          a {
+            display: block;
+            padding: 0.6rem 1rem;
+            color: var(--fg);
+            text-decoration: none;
+            transition: all $transition-speed ease;
+            position: relative;
+
+            // Hover submeniu
+            &:hover {
+              background-color: rgba(255, 181, 71, 0.12);
+              color: var(--primary);
+              text-shadow: 0 0 8px rgba(255, 181, 71, 0.4), 0 0 1px rgba(255, 181, 71, 0.8);
+            }
+          }
+        }
+      }
+
+      &:hover .submenu,
+      &:focus-within .submenu {
+        transform: scale(1);
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+  }
+
+  // Ecran mediu
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .menu-list {
+      justify-content: space-around;
+      .menu-item {
+        > a {
+          .menu-text {
+            display: none; // Ascunde textul
+          }
+          i {
+            font-size: 1.4rem; // Doar icoane
+          }
+        }
+      }
+    }
+  }
+
+  // Ecran mic (hamburger menu)
+  @media (max-width: 767px) {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    .burger-menu-icon {
+      display: block;
+      width: 32px;
+      height: 24px;
+      position: relative;
+      cursor: pointer;
+      margin: 0.5rem;
+
+      .hamburger-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        
+        .bar {
+          position: absolute;
+          left: 0;
+          width: 100%;
+          height: 4px;
+          background-color: var(--primary);
+          border-radius: 4px;
+          opacity: 0; 
+          
+          animation: bar-entrance 0.6s ease forwards;
+          
+          &:nth-child(1) { top: 0px; }
+          &:nth-child(2) { top: 10px; }
+          &:nth-child(3) { top: 20px; }
+        }
+
+        @for $i from 1 through 3 {
+          .bar:nth-child(#{$i}) {
+            animation-delay: #{$i * 200}ms;
+          }
+        }
+      }
+    }
+
+    #burger-menu-toggle:checked ~ .burger-menu-icon {
+      .hamburger-container .bar {
+        animation: none;
+        opacity: 1;
+        transition: transform 0.4s ease, top 0.4s ease, opacity 0.4s ease;
+        
+        &:nth-child(1) { top: 10px; transform: rotate(45deg); }
+        &:nth-child(2) { opacity: 0; transform: translateX(-10px); }
+        &:nth-child(3) { top: 10px; transform: rotate(-45deg); }
+      }
+    }
+    
+    #burger-menu-toggle:not(:checked) ~ .burger-menu-icon .hamburger-container .bar {
+      transition: transform 0.4s ease, top 0.4s ease, opacity 0.4s ease;
+    }
+
+    .menu-list {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--surface-overlay);
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      width: 100%;
+      border: none;
+      
+      // Animatie deschidere meniu burger 
+      max-height: 0;
+      overflow: hidden;
+      clip-path: polygon(0 0, 0 0, 0 50%, 0 100%, 0 100%);
+      transition: max-height 0.6s ease-in-out, clip-path 0.6s ease-in-out;
+
+      .menu-item {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+
+        > a {
+          width: 100%;
+          border-radius: 0;
+          padding: 1rem 1.5rem;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          justify-content: center;
+
+          // Prima pagina (Acasa) inlocuita cu un hover-casuta doar (text abs)
+          &[href="index.html"] {
+            .menu-text { display: none; }
+            i { font-size: 1.5rem; }
+          }
+        }
+
+        .submenu {
+          position: static;
+          width: 100%;
+          background-color: transparent;
+          border: none;
+          padding: 0;
+          
+          transform: none;
+          visibility: visible;
+          opacity: 1;
+          
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.4s ease;
+          clip-path: none;
+
+          li {
+            a {
+              padding: 0.8rem 1rem;
+              border-bottom: 1px dotted rgba(255, 255, 255, 0.05);
+              justify-content: center;
+              text-align: center;
+            }
+          }
+        }
+
+        &:hover > a {
+          color: var(--primary);
+        }
+        
+        // Deschidere submeniu (click/hover) pt mobil
+        &:focus-within .submenu,
+        &:hover .submenu {
+          max-height: 500px;
+          clip-path: none;
+        }
+      }
+    }
+
+    #burger-menu-toggle:checked ~ .menu-list {
+      max-height: 800px;
+      clip-path: polygon(0 0, 100% 0, 150% 50%, 100% 100%, 0 100%);
+    }
+  }
+}
+
+// Keyframes pt animația bonus (transf. geometrică, opacitate, culoare)
+@keyframes bar-entrance {
+  0% {
+    opacity: 0;
+    background-color: transparent;
+    transform: rotate(90deg) scale(0.5);
+  }
+  50% {
+    opacity: 0.5;
+    background-color: var(--secondary);
+    transform: rotate(-15deg) scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    background-color: var(--primary);
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+// Bucle pt intarziere pe tranzitii in submeniuri pt animatie in cascada
+@for $i from 1 through 6 {
+  nav#main-nav .menu-list .menu-item .submenu li:nth-child(#{$i}) a {
+    transition-delay: #{$i * 0.03}s;
+  }
+}
