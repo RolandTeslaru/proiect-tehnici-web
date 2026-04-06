@@ -1,0 +1,26 @@
+{
+  "name": "proiect-tehnici-web",
+  "version": "1.0.0",
+  "description": "Proiect pentru laboratorul de Tehnici Web",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "proiect",
+    "tehnici-web",
+    "ejs",
+    "express"
+  ],
+  "author": "Roland Teslaru",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RolandTeslaru/proiect-tehnici-web/issues"
+  },
+  "homepage": "https://github.com/RolandTeslaru/proiect-tehnici-web#readme",
+  "dependencies": {
+    "ejs": "^5.0.2",
+    "express": "^5.2.1"
+  }
+}

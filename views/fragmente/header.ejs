@@ -1,0 +1,60 @@
+<header>
+    <h1><i class="fas fa-shield-halved"></i> Aegis Dynamics: Lider in solutii de aparare</h1>
+    <nav id="main-nav">
+        <input type="checkbox" id="burger-menu-toggle" aria-label="Toggle menu">
+        <label for="burger-menu-toggle" class="burger-menu-icon" aria-label="Deschide meniu">
+            <div class="hamburger-container">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </label>
+        <ul class="menu-list">
+            <li class="menu-item link-acasa">
+                <a href="/">
+                    <i class="fa-solid fa-house"></i>
+                    <span class="menu-text">Acasa</span>
+                </a>
+                <ul class="submenu">
+                    <li><a href="/index#viziune">Viziune si Inovatie</a></li>
+                    <li><a href="/index#proiecte">Stadiu Proiecte</a></li>
+                    <li><a href="/index#evenimente">Evenimente Oficiale</a></li>
+                    <li><a href="/index#zona8">Resurse si Media</a></li>
+                </ul>
+            </li>
+            <li class="menu-item link-portofoliu">
+                <a href="#">
+                    <i class="fa-solid fa-briefcase"></i>
+                    <span class="menu-text">Divizii si Cataloage</span>
+                </a>
+                <ul class="submenu">
+                    <li><a href="/catalog">Catalog Produse (Divizia Militara)</a></li>
+                    <li><a href="/contractare">Contractare Guvernamentala (FMS)</a></li>
+                    <li><a href="/cibernetic">Securitate Cibernetica (Pilot)</a></li>
+                </ul>
+            </li>
+            <li class="menu-item link-despre">
+                <a href="/despre">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span class="menu-text">Despre Noi</span>
+                </a>
+            </li>
+            <li class="menu-item link-contact">
+                <a href="/contact">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span class="menu-text">Portal Securizat / Contact</span>
+                </a>
+            </li>
+            <li class="menu-item link-anunturi">
+                <a href="/index#anunturi">
+                    <i class="fa-solid fa-bell"></i>
+                    <span class="menu-text">Anunturi Importante</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div id="user-info">
+        <p>IP-ul tău: <%= locals.ip %></p>
+    </div>
+    <p>Expertiza <strong>B2G</strong> pentru excelenta si <strong>inovatie militara</strong> globala.</p>
+</header>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <title><%= locals.titlu %></title>
+    <%- include("../fragmente/head") %>
+</head>
+<body>
+    <%- include("../fragmente/header") %>
+
+    <main>
+        <section class="error-section">
+            <h2><%= locals.titlu %></h2>
+            <p><%= locals.text %></p>
+            <% if (locals.imagine) { %>
+                <img src="<%= locals.imagine %>" alt="Eroare" style="max-width: 500px; display: block; margin: 20px auto;">
+            <% } %>
+            <p><a href="/">Inapoi la pagina principala</a></p>
+        </section>
+    </main>
+
+    <%- include("../fragmente/footer") %>
+</body>
+</html>
