@@ -9,19 +9,45 @@
 <body id="top">
     <%- include("../fragmente/header") %>
 
-    <main class="layout-grid">
+    <!-- reflexie text (efect-css-reflexie-text) — sus, full-width -->
+    <div class="reflexie-container">
+        <span class="reflexie-text" data-text="AEGIS">AEGIS</span>
+    </div>
+
+    <main class="layout-grid layout-despre">
         <section>
-            <h2>Istoria Noastră</h2>
-            <p>Aegis Dynamics a fost fondată în 2020 cu misiunea de a revoluționa industria de apărare prin inovație tehnologică și transparență în contractele B2G.</p>
-            <p>De-a lungul anilor, am devenit parteneri de încredere pentru numeroase guverne, oferind soluții avansate de securitate națională.</p>
+            <h2>Istoria Noastra</h2>
+            <p>Aegis Dynamics a fost fondata in 2020 cu misiunea de a revolutiona industria de aparare prin inovatie tehnologica si transparenta in contractele B2G.</p>
+            <p>De-a lungul anilor, am devenit parteneri de incredere pentru numeroase guverne, oferind solutii avansate de securitate nationala.</p>
         </section>
 
         <section>
-            <h2>Misiune și Valori</h2>
-            <p>Ne dedicăm protejării valorilor democratice și asigurării păcii prin superioritate tehnologică. Integritatea, inovația și excelența sunt pilonii pe care ne construim viitorul.</p>
+            <h2>Misiune si Valori</h2>
+            <p>Ne dedicam protejarii valorilor democratice si asigurarii pacii prin superioritate tehnologica. Integritatea, inovatia si excelenta sunt pilonii pe care ne construim viitorul.</p>
             <img src="/resurse/imagini/f35_medium.jpg" alt="Aegis Misiune" style="max-width: 100%; border-radius: 8px; margin-top: 20px;">
         </section>
     </main>
+
+    <!-- hr + duotone + card Bootstrap -->
+    <section class="showcase">
+        <hr class="hr-stelute">
+
+        <div class="showcase-rand">
+            <!-- duotone (efect-css-duotone) -->
+            <div class="duotone" role="img" aria-label="Imagine duotone aeronava"></div>
+
+            <!-- card Bootstrap customizat -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Buletin de presa</h5>
+                    <p class="card-text">Componenta Bootstrap customizata cu schema cromatica Aegis
+                        (raze de border, font Rajdhani, culori proprii).</p>
+                    <button type="button" class="btn btn-primary">Citeste mai mult</button>
+                    <span class="badge text-bg-secondary">Nou</span>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <%- include("../fragmente/footer") %>
 </body>

@@ -1,0 +1,133 @@
+{
+  "cale_galerie": "resurse/imagini/galerie",
+  "imagini": [
+    {
+      "cale_fisier": "f35_1.jpg",
+      "titlu": "F-35 in misiune",
+      "alt": "Aeronava F-35 in zbor",
+      "text_descriere": "Platforma aeriana stealth de generatia a 5-a in misiune activa.",
+      "luni": ["ianuarie", "iunie", "septembrie"],
+      "atribuire": {
+        "autor": "U.S. Air Force",
+        "sursa": "https://www.af.mil",
+        "licenta": "CC-BY"
+      }
+    },
+    {
+      "cale_fisier": "f35_2.jpg",
+      "titlu": "Decolarea F-35",
+      "alt": "F-35 la decolare",
+      "text_descriere": "F-35 Lightning II la decolare de pe pista operationala.",
+      "luni": ["februarie", "iunie"],
+      "atribuire": {
+        "autor": "U.S. Air Force",
+        "sursa": "https://www.af.mil",
+        "licenta": "CC-BY"
+      }
+    },
+    {
+      "cale_fisier": "f35_3.jpg",
+      "titlu": "F-35 si armamentul JASSM",
+      "alt": "F-35 cu racheta JASSM",
+      "text_descriere": "Configuratie F-35 cu racheta JASSM pentru atac la distanta.",
+      "luni": ["iunie", "octombrie"],
+      "atribuire": {
+        "autor": "U.S. Air Force",
+        "sursa": "https://www.af.mil",
+        "licenta": "CC-BY"
+      }
+    },
+    {
+      "cale_fisier": "f35_4.jpg",
+      "titlu": "Zbor de patrulare",
+      "alt": "F-35 patrulare aeriana",
+      "text_descriere": "Patrulare aeriana de rutina deasupra spatiului NATO.",
+      "luni": ["iunie", "iulie"]
+    },
+    {
+      "cale_fisier": "f35_5.jpg",
+      "titlu": "F-35 si racheta Meteor",
+      "alt": "F-35 cu racheta Meteor",
+      "text_descriere": "Integrarea rachetei Meteor pe platforma F-35 pentru superioritate aeriana.",
+      "luni": ["iunie", "decembrie"]
+    },
+    {
+      "cale_fisier": "f35_6.jpg",
+      "titlu": "Strike Fighter in actiune",
+      "alt": "F-35 in atac",
+      "text_descriere": "Aeronava multirola in configuratie de atac la sol.",
+      "luni": ["iunie", "martie"]
+    },
+    {
+      "cale_fisier": "f35_7.jpg",
+      "titlu": "Zbor de noapte",
+      "alt": "F-35 zbor nocturn",
+      "text_descriere": "Capabilitate operationala completa in conditii de vizibilitate redusa.",
+      "luni": ["iunie", "noiembrie"]
+    },
+    {
+      "cale_fisier": "f35_1.jpg",
+      "titlu": "Escadrila Aegis",
+      "alt": "Formatie de aeronavwe F-35",
+      "text_descriere": "Escadrila completa Aegis in zbor de formatie deasupra bazei.",
+      "luni": ["iunie", "august"],
+      "atribuire": {
+        "autor": "U.S. Air Force",
+        "sursa": "https://www.af.mil",
+        "licenta": "CC-BY"
+      }
+    },
+    {
+      "cale_fisier": "f35_2.jpg",
+      "titlu": "Aterizare pe portavion",
+      "alt": "F-35 aterizare portavion",
+      "text_descriere": "Varianta F-35C adaptata pentru operatiuni de pe portavioane.",
+      "luni": ["iunie", "aprilie"],
+      "atribuire": {
+        "autor": "U.S. Air Force",
+        "sursa": "https://www.af.mil",
+        "licenta": "CC-BY"
+      }
+    },
+    {
+      "cale_fisier": "f35_3.jpg",
+      "titlu": "Configuratie LRASM",
+      "alt": "F-35 cu racheta anti-nava",
+      "text_descriere": "Configuratie cu racheta LRASM pentru misiuni anti-nava.",
+      "luni": ["iunie", "mai"],
+      "atribuire": {
+        "autor": "U.S. Air Force",
+        "sursa": "https://www.af.mil",
+        "licenta": "CC-BY"
+      }
+    },
+    {
+      "cale_fisier": "f35_4.jpg",
+      "titlu": "Survol deasupra orasului",
+      "alt": "F-35 survol urban",
+      "text_descriere": "Demonstratie aeriana in cadrul expozitiei Aegis AirShow.",
+      "luni": ["iunie", "februarie"]
+    },
+    {
+      "cale_fisier": "f35_5.jpg",
+      "titlu": "Test de armament",
+      "alt": "F-35 testare armament",
+      "text_descriere": "Testare sisteme de armament integrate pe platforma F-35.",
+      "luni": ["iunie", "ianuarie"]
+    },
+    {
+      "cale_fisier": "f35_6.jpg",
+      "titlu": "Interceptare tinta",
+      "alt": "F-35 interceptare",
+      "text_descriere": "Procedura de interceptare a unei tinte aeriene neidentificate.",
+      "luni": ["iunie", "septembrie"]
+    },
+    {
+      "cale_fisier": "f35_7.jpg",
+      "titlu": "Operatiune nocturna",
+      "alt": "F-35 operatiune nocturna",
+      "text_descriere": "Misiune de recunoastere in spatiul aerian ostil, conditii nocturne.",
+      "luni": ["iunie", "octombrie"]
+    }
+  ]
+}

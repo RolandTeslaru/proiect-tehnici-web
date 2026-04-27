@@ -1,0 +1,31 @@
+<section class="galerie" aria-label="Galerie de imagini">
+    <% if (!locals.imagini || imagini.length === 0) { %>
+        <p style="text-align:center; padding: 2rem;">Nu exista imagini de afisat pentru luna curenta.</p>
+    <% } else { %>
+        <div class="galerie-grid">
+            <% imagini.forEach(function(img) { %>
+                <figure class="galerie-item">
+                    <div class="galerie-img-wrap">
+                        <picture>
+                            <source media="(min-width: 1100px)" srcset="<%= img.src_large %>">
+                            <source media="(min-width: 820px)" srcset="<%= img.src_medium %>">
+                            <img src="<%= img.src_small %>"
+                                 alt="<%= img.alt %>"
+                                 title="<%= img.text_descriere %>"
+                                 loading="lazy">
+                        </picture>
+                    </div>
+                    <figcaption class="galerie-caption">
+                        <span class="index-galerie"></span><%= img.titlu %>
+                        <% if (img.atribuire) { %>
+                            <small class="galerie-atribuire">
+                                &copy; <%= img.atribuire.autor %>
+                                (<a href="<%= img.atribuire.sursa %>" target="_blank" rel="noopener"><%= img.atribuire.licenta %></a>)
+                            </small>
+                        <% } %>
+                    </figcaption>
+                </figure>
+            <% }); %>
+        </div>
+    <% } %>
+</section>

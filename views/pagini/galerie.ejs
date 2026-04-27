@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <title>Galerie | Aegis Dynamics</title>
+    <meta name="description" content="Galerie de imagini cu tehnica militara Aegis Dynamics.">
+    <%- include("../fragmente/head") %>
+</head>
+
+<body id="top">
+    <%- include("../fragmente/header") %>
+
+    <main class="galerie-main">
+        <%- include("../fragmente/galerie", { imagini: imagini }) %>
+    </main>
+
+    <%- include("../fragmente/footer") %>
+
+    <a href="#top" id="link-top" title="Inapoi la inceputul paginii">
+        <div id="triunghi"></div>
+    </a>
+</body>
+
+</html>

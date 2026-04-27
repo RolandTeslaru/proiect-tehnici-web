@@ -53,7 +53,6 @@
                     nationala garantata.</p>
             </details>
 
-            <h3>Stadiul indeplinirii cotelor de productie:</h3>
             <p>F-35 Productie Anuala: <meter value="92" min="0" max="100" low="40" high="80" optimum="95">92%</meter>
                 (Optim)</p>
             <p>Artilerie Grea (Testare): <meter value="25" min="0" max="100" low="40" high="80" optimum="95">25%</meter>
@@ -71,7 +70,7 @@
                 </mfrac>
                 <mi>m</mi>
                 <msup>
-                    <mi>v</mi>
+                    <mi>v</mi
                     <mn>2</mn>
                 </msup>
             </math>
@@ -173,31 +172,32 @@
             <section id="media">
                 <h2>Resurse Tehnice si Media</h2>
 
+                <video
+                    controls
+                    preload="metadata"
+                    poster="/resurse/imagini/f35_large.jpg"
+                    class="video-aegis"
+                >
+                    <source src="/resurse/video/aegis_promo.mp4" type="video/mp4">
+                    <source src="/resurse/video/aegis_promo.webm" type="video/webm">
+                    <track kind="subtitles" src="/resurse/vtt/subtitles_ro.vtt" srclang="ro" label="Romana" default>
+                    <track kind="subtitles" src="/resurse/vtt/subtitles_en.vtt" srclang="en" label="English">
+                    Browser-ul tau nu suporta elementul video.
+                </video>
+
                 <div class="container-iframe">
+                    <iframe name="playerAegis" width="560" height="315" src="https://www.youtube.com/embed/orbzTpqlBok"
+                    title="YouTube video player"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
                     <div class="taburi-iframe">
                         <a href="https://www.youtube.com/embed/na-huvacMKQ?autoplay=1&start=78" target="playerAegis">Prezentare F-35 Lightning II</a>
                         <a href="https://www.youtube.com/embed/EEXI6r08908?autoplay=1&start=2" target="playerAegis">Sisteme UAV in actiune</a>
                         <a href="https://www.youtube.com/embed/orbzTpqlBok" target="playerAegis">Armament Greu</a>
                     </div>
-                    <iframe name="playerAegis" width="560" height="315" src="https://www.youtube.com/embed/orbzTpqlBok"
-                        title="YouTube video player"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen></iframe>
                 </div>
 
-                <p>
-                    Analizati rapoartele noastre externe:
-                    <a href="https://www.defense.gov" target="_blank">Departamentul de Aparare (Sursa Externa)</a>.<br>
-                </p>
-                <p>
-                    <a href="https://developers.google.com/youtube/player_parameters#autoplay">https://developers.google.com<wbr>/youtube<wbr>/player_parameters<wbr>#autoplay</a>
-                </p>
-                <p>
-                    <a href="/resurse/imagini/f35_large.jpg"><img src="/resurse/imagini/f35_thumb.jpg"
-                            alt="Click pentru varianta mare a aeronavei"></a><br>
-                    <a href="/resurse/fisiere/brosura_aegis.pdf" download="aegis_informatii_clasificate.pdf">Descarca brosura
-                        de <strong>tehnica militara</strong></a>
-                </p>
+
 
                 <figure>
                     <picture>
@@ -224,16 +224,12 @@
                 </map>
             </section>
 
-            <section id="playlist-youtube">
-                <h2>Playlist YouTube demonstrativ</h2>
-                <iframe name="playlistAegis" width="560" height="315"
-                    src="https://www.youtube.com/embed/BtLLXKJ7TJM?autoplay=1&loop=1&controls=1&listType=playlist&list=PLGFwY01RkHY5JdHeLn9cypugxPJCReJgZ"
-                    title="Playlist video demonstrativ"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
-            </section>
+        
         </section>
     </main>
+
+    <!-- Galerie statica full-width (acelasi fragment ca pe pagina /galerie) -->
+    <%- include("../fragmente/galerie", { imagini: locals.imagini || [] }) %>
 
     <%- include("../fragmente/footer") %>
 

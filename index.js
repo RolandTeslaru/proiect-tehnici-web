@@ -2,6 +2,8 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const ejs = require('ejs');
+const sass = require('sass');
+const sharp = require('sharp');
 
 const app = express();
 const port = 8080;
@@ -17,12 +19,15 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Definire folder static
 app.use('/resurse', express.static(path.join(__dirname, 'resurse')));
-app.use('/index.css', express.static(path.join(__dirname, 'index.css'))); 
 
 // Variabile globale si initializare erori
 global.obGlobal = {
     obErori: null,
-    imaginiEroriExistente: true
+    imaginiEroriExistente: true,
+    obGalerie: null,
+    // Etapa 5: cai catre folderele scss/css din folderul de resurse
+    folderScss: path.join(__dirname, 'resurse', 'scss'),
+    folderCss: path.join(__dirname, 'resurse', 'css')
 };
 
 function initErori() {
@@ -38,65 +43,20 @@ function initErori() {
     
     // Bonus: Verificare proprietate specificata de mai multe ori per obiect (pe string)
     function verificaDuplicate(jsonString) {
-        const stack = [];
-        let i = 0;
-        let inString = false;
-        let escape = false;
-        while (i < jsonString.length) {
-            const c = jsonString[i];
-            if (escape) { 
-                escape = false; 
-                i++; 
-                continue; 
-            }
-            if (c === '\\' && inString) { 
-                escape = true; 
-                i++; 
-                continue; 
-            }
-            // Aici e un string real
-            if (c === '"') {
-                let j = i + 1;
-                while (j < jsonString.length) {
-                    if (jsonString[j] === '\\') { 
-                        j += 2; 
-                        continue; 
-                    }
-                    if (jsonString[j] === '"') break;
-                    j++;
+        const obiecte = jsonString.match(/\{[^{}]*\}/g) || [];
+        obiecte.forEach(obiect => {
+            const chei = [];
+            const regex = /"(\w+)"\s*:/g;
+            let match;
+            while ((match = regex.exec(obiect)) !== null) {
+                const cheie = match[1];
+                if (chei.includes(cheie)) {
+                    console.error(`EROARE BONUS: Proprietatea '${cheie}' apare de mai multe ori in acelasi obiect din erori.json`);
+                } else {
+                    chei.push(cheie);
                 }
-                const str = jsonString.substring(i + 1, j);
-                // E o cheie daca urmeaza ':' (cu posibil whitespace)
-                let k = j + 1;
-                while (
-                    k < jsonString.length 
-                    && 
-                    /\s/.test(jsonString[k])
-                ) {
-                    k++;
-                }
-                if (
-                    jsonString[k] === ':' 
-                    && stack.length > 0 
-                    && stack[stack.length - 1].type === 'obj'
-                ) {
-                    const frame = stack[stack.length - 1];
-                    if (frame.keys.has(str)) {
-                        console.error(`EROARE BONUS: Proprietatea '${str}' apare de mai multe ori in acelasi obiect din erori.json`);
-                    } else {
-                        frame.keys.add(str);
-                    }
-                }
-                i = j + 1;
-                continue;
             }
-            if (c === '{') 
-                stack.push({ type: 'obj', keys: new Set() });
-            else if (c === '}') stack.pop();
-            else if (c === '[') stack.push({ type: 'arr' });
-            else if (c === ']') stack.pop();
-            i++;
-        }
+        });
     }
     verificaDuplicate(textJson);
 
@@ -155,6 +115,208 @@ function initErori() {
 
 initErori();
 
+// ============================================================
+//  ETAPA 5 — Compilare automata SCSS (0.25p)
+// ============================================================
+
+// Bonus 4: lastIndexOf ca sa mearga si pt nume cu puncte (stil.frumos.scss)
+function schimbaExtensiaCss(numeFisier) {
+    const idx = numeFisier.lastIndexOf('.');
+    const baza = idx === -1 ? numeFisier : numeFisier.slice(0, idx);
+    return baza + '.css';
+}
+
+// compileaza un scss in css; cai relative => relative la folderScss/folderCss
+function compileazaScss(caleScss, caleCss) {
+    const { folderScss, folderCss } = global.obGlobal;
+
+    const caleScssAbs = path.isAbsolute(caleScss)
+        ? caleScss
+        : path.join(folderScss, caleScss);
+
+    // daca lipseste calea css -> numele scss-ului cu extensia .css
+    let caleCssAbs;
+    if (!caleCss) {
+        const numeCss = schimbaExtensiaCss(path.basename(caleScssAbs));
+        caleCssAbs = path.join(folderCss, numeCss);
+    } else {
+        caleCssAbs = path.isAbsolute(caleCss)
+            ? caleCss
+            : path.join(folderCss, caleCss);
+    }
+
+    // backup la css-ul vechi inainte de a-l suprascrie
+    if (fs.existsSync(caleCssAbs)) {
+        try {
+            const folderBackupCss = path.join(__dirname, 'backup', 'resurse', 'css');
+            fs.mkdirSync(folderBackupCss, { recursive: true });
+            // Bonus 3: timestamp in nume (a.css -> a_<timestamp>.css)
+            const numeCss = path.basename(caleCssAbs);
+            const numeBackup = schimbaExtensiaCss(numeCss).replace(/\.css$/, '') + '_' + Date.now() + '.css';
+            fs.copyFileSync(caleCssAbs, path.join(folderBackupCss, numeBackup));
+        } catch (err) {
+            console.error(`EROARE la copierea in backup a fisierului ${caleCssAbs}: ${err.message}`);
+        }
+    }
+
+    try {
+        const rezultat = sass.compile(caleScssAbs, {
+            loadPaths: [path.join(__dirname, 'node_modules')],
+            style: 'expanded',
+            quietDeps: true,
+            silenceDeprecations: ['import', 'global-builtin', 'color-functions', 'if-function']
+        });
+        fs.mkdirSync(path.dirname(caleCssAbs), { recursive: true });
+        fs.writeFileSync(caleCssAbs, rezultat.css, 'utf8');
+        console.log(`SCSS compilat: ${path.basename(caleScssAbs)} -> ${path.relative(__dirname, caleCssAbs)}`);
+    } catch (err) {
+        console.error(`EROARE la compilarea ${caleScssAbs}: ${err.message}`);
+    }
+}
+
+// compileaza toate scss-urile din folderScss (sare peste partialele _*.scss)
+function compileazaToateScss() {
+    const { folderScss } = global.obGlobal;
+    if (!fs.existsSync(folderScss)) {
+        console.error(`EROARE: Folderul scss '${folderScss}' nu exista!`);
+        return;
+    }
+    fs.readdirSync(folderScss).forEach(fisier => {
+        if (fisier.endsWith('.scss') && !fisier.startsWith('_')) {
+            compileazaScss(fisier);
+        }
+    });
+}
+
+compileazaToateScss();
+
+// compilare pe parcurs cu fs.watch (debounce, fs.watch da evenimente duble)
+const ultimeCompilari = {};
+fs.watch(global.obGlobal.folderScss, (event, filename) => {
+    if (!filename || !filename.endsWith('.scss')) return;
+
+    const acum = Date.now();
+    if (ultimeCompilari[filename] && acum - ultimeCompilari[filename] < 300) return;
+    ultimeCompilari[filename] = acum;
+
+    if (filename.startsWith('_')) {
+        // partial modificat -> recompilez tot (fisierele principale depind de el)
+        console.log(`Partial ${filename} modificat -> recompilez toate scss-urile.`);
+        compileazaToateScss();
+    } else {
+        const caleCompleta = path.join(global.obGlobal.folderScss, filename);
+        if (fs.existsSync(caleCompleta)) {
+            console.log(`Modificare detectata in ${filename} -> recompilez.`);
+            compileazaScss(filename);
+        }
+    }
+});
+
+// ============================================================
+//  ETAPA 5 — Galerie statica (0.35p) + validare JSON (Bonus 5)
+// ============================================================
+
+function initGalerie() {
+    const caleGalerieJson = path.join(__dirname, 'galerie.json');
+
+    if (!fs.existsSync(caleGalerieJson)) {
+        console.error("EROARE: Fisierul galerie.json nu exista!");
+        return;
+    }
+
+    let obGalerie;
+    try {
+        obGalerie = JSON.parse(fs.readFileSync(caleGalerieJson, 'utf8'));
+    } catch (err) {
+        console.error(`EROARE: galerie.json nu este JSON valid: ${err.message}`);
+        return;
+    }
+
+    // Bonus 5a: folderul din cale_galerie trebuie sa existe
+    const folderGalerieAbs = path.join(__dirname, obGalerie.cale_galerie || '');
+    if (!obGalerie.cale_galerie || !fs.existsSync(folderGalerieAbs)) {
+        console.error(`EROARE: Folderul galeriei specificat in 'cale_galerie' ('${obGalerie.cale_galerie}') nu exista in sistemul de fisiere la calea ${folderGalerieAbs}.`);
+    } else {
+        // Bonus 5b: fiecare imagine din lista trebuie sa existe pe disc
+        (obGalerie.imagini || []).forEach(img => {
+            const caleImg = path.join(folderGalerieAbs, img.cale_fisier);
+            if (!fs.existsSync(caleImg)) {
+                console.error(`EROARE: Imaginea '${img.cale_fisier}' din galerie.json nu exista pe disc la calea ${caleImg}.`);
+            }
+        });
+    }
+
+    global.obGlobal.obGalerie = obGalerie;
+}
+
+initGalerie();
+
+const LUNI_RO = ["ianuarie", "februarie", "martie", "aprilie", "mai", "iunie",
+    "iulie", "august", "septembrie", "octombrie", "noiembrie", "decembrie"];
+
+// genereaza variantele -medium/-small cu sharp daca nu exista deja
+async function genereazaVarianteImagine(folderGalerieAbs, numeFisier) {
+    const idx = numeFisier.lastIndexOf('.');
+    const baza = idx === -1 ? numeFisier : numeFisier.slice(0, idx);
+    const ext = idx === -1 ? '' : numeFisier.slice(idx);
+
+    const variante = [
+        { sufix: '-medium', latime: 300 },
+        { sufix: '-small', latime: 180 }
+    ];
+
+    for (const v of variante) {
+        const caleVarianta = path.join(folderGalerieAbs, baza + v.sufix + ext);
+        if (!fs.existsSync(caleVarianta)) {
+            try {
+                await sharp(path.join(folderGalerieAbs, numeFisier))
+                    .resize({ width: v.latime })
+                    .toFile(caleVarianta);
+            } catch (err) {
+                console.error(`EROARE la generarea variantei ${caleVarianta}: ${err.message}`);
+            }
+        }
+    }
+}
+
+// imaginile potrivite lunii curente, max 12 (dataCurenta = modificabila pt testare)
+async function getImaginiGalerie(dataCurenta = new Date()) {
+    const obGalerie = global.obGlobal.obGalerie;
+    if (!obGalerie || !Array.isArray(obGalerie.imagini)) return [];
+
+    const lunaCurenta = LUNI_RO[dataCurenta.getMonth()];
+    const folderGalerieRel = obGalerie.cale_galerie;
+    const folderGalerieAbs = path.join(__dirname, folderGalerieRel);
+
+    // Filtrare dupa luna
+    let potrivite = obGalerie.imagini.filter(img =>
+        Array.isArray(img.luni) && img.luni.includes(lunaCurenta));
+
+    // Trunchiere la maxim 12 (implementat in program)
+    potrivite = potrivite.slice(0, 12);
+
+    const rezultat = [];
+    for (const img of potrivite) {
+        await genereazaVarianteImagine(folderGalerieAbs, img.cale_fisier);
+
+        const idx = img.cale_fisier.lastIndexOf('.');
+        const baza = idx === -1 ? img.cale_fisier : img.cale_fisier.slice(0, idx);
+        const ext = idx === -1 ? '' : img.cale_fisier.slice(idx);
+        const caleWeb = '/' + folderGalerieRel.split(path.sep).join('/');
+
+        rezultat.push({
+            titlu: img.titlu || img.cale_fisier,
+            alt: img.alt || img.cale_fisier,
+            text_descriere: img.text_descriere || '',
+            atribuire: img.atribuire || null,
+            src_large: `${caleWeb}/${img.cale_fisier}`,
+            src_medium: `${caleWeb}/${baza}-medium${ext}`,
+            src_small: `${caleWeb}/${baza}-small${ext}`
+        });
+    }
+    return rezultat;
+}
+
 /**
  * Functie de afisare a erorilor
  */
@@ -176,13 +338,13 @@ function afisareEroare(res, identificator, titlu, text, imagine) {
     });
 }
 
-// Middleware pentru IP si variabile locale
+// salvare ip prin middeware 
 app.use((req, res, next) => {
     res.locals.ip = req.ip;
     next();
 });
 
-// Task 19: Creare foldere
+// T19: Creare foldere
 const vect_foldere = ["temp", "logs", "backup", "fisiere_uploadate"];
 vect_foldere.forEach(f => {
     const cale = path.join(__dirname, f);
@@ -207,7 +369,7 @@ function randeazaPagina(res, numePagina) {
     });
 }
 
-// Task 16: Forbidden folder access - cerere catre folder din /resurse fara fisier
+// T16: Forbidden folder access - cerere catre folder din /resurse fara fisier
 app.get("/resurse/*cale", (req, res, next) => {
     const segmente = req.params.cale;
     const ultim = Array.isArray(segmente) ? segmente[segmente.length - 1] : segmente;
@@ -219,28 +381,59 @@ app.get("/resurse/*cale", (req, res, next) => {
     next();
 });
 
-// Task 17: EJS access prevention - orice cerere pentru fisiere .ejs -> 400
+// T17: EJS access prevention - orice cerere pentru fisiere .ejs -> 400
 app.get(/.*\.ejs$/, (req, res) => {
     afisareEroare(res, 400);
 });
 
-// Task 8: Prima pagina
-app.get(["/", "/index", "/home"], (req, res) => {
-    randeazaPagina(res, 'index');
+// T8: Prima pagina — transmite imaginile galeriei (filtrate dupa luna)
+app.get(["/", "/index", "/home"], async (req, res) => {
+    try {
+        const imagini = await getImaginiGalerie();
+        res.render('pagini/index', { imagini }, (err, rezultatRandare) => {
+            if (err) {
+                console.error(err);
+                afisareEroare(res, 500, "Eroare Server", "A aparut o eroare la procesarea paginii.");
+            } else {
+                res.send(rezultatRandare);
+            }
+        });
+    } catch (err) {
+        console.error(err);
+        afisareEroare(res, 500, "Eroare Server", "A aparut o eroare la incarcarea galeriei.");
+    }
 });
 
-// Task 18: Favicon
+// Etapa 5: pagina dedicata galeriei (foloseste acelasi fragment)
+app.get("/galerie", async (req, res) => {
+    try {
+        const imagini = await getImaginiGalerie();
+        res.render('pagini/galerie', { imagini }, (err, rezultatRandare) => {
+            if (err) {
+                console.error(err);
+                afisareEroare(res, 500, "Eroare Server", "A aparut o eroare la procesarea paginii.");
+            } else {
+                res.send(rezultatRandare);
+            }
+        });
+    } catch (err) {
+        console.error(err);
+        afisareEroare(res, 500, "Eroare Server", "A aparut o eroare la incarcarea galeriei.");
+    }
+});
+
+// T18: Favicon
 app.get("/favicon.ico", (req, res) => {
     res.sendFile(path.join(__dirname, "resurse/ico/favicon.ico"));
 });
 
-// Task 9: General route (trebuie sa fie ultimul)
+// T9: 
 app.get("/*pagina", (req, res) => {
     const segmente = req.params.pagina;
     const pagina = Array.isArray(segmente) ? segmente.join('/') : segmente;
     randeazaPagina(res, pagina);
 });
 
-app.listen(port, () => {
+ app.listen(port, () => {
     console.log(`Serverul ruleaza la http://localhost:${port}`);
 });

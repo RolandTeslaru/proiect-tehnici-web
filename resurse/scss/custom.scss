@@ -1,0 +1,85 @@
+// ============================================================
+//  custom.scss — Customizare Bootstrap (Etapa 5, 0.25p)
+//  Schema cromatica Aegis Dynamics (portocaliu pe fundal inchis)
+//  Compilat automat de compileazaScss() la pornirea serverului.
+// ============================================================
+
+// ── 1. Functii Bootstrap (necesare pentru map-uri / culori) ──
+@import "bootstrap/scss/functions";
+
+// ── 2. Override de variabile (INAINTE de restul Bootstrap) ──
+
+// Schema cromatica proprie
+$primary:   #FFB547; // portocaliu Aegis
+$secondary: #FF9A32;
+$success:   #3fb37f;
+$info:      #4aa3ff;
+$warning:   #FFD089;
+$danger:    #e5484d;
+
+// (a) Culori de background pentru 2 teme (light + dark) cu schema customizata
+$body-bg:          #F4ECDD; // tema light: crem cald (derivat din accent)
+$body-color:       #2C1810; // text inchis pe light
+$body-bg-dark:     #050609; // tema dark: fundalul site-ului Aegis
+$body-color-dark:  #F9F4EA;
+
+// (b) Culoare de font intr-un buton (litere) — textul butonului .btn-primary
+$btn-color: #050609; // litere inchise pe butonul portocaliu (contrast)
+
+// (c) Dimensiuni de ecran diferite pentru ecrane medii si mari
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 820px,   // ecran mediu customizat (implicit 768px)
+  lg: 1100px,  // ecran mare customizat (implicit 992px)
+  xl: 1320px,
+  xxl: 1500px
+);
+$container-max-widths: (
+  md: 780px,
+  lg: 1040px,
+  xl: 1260px,
+  xxl: 1440px
+);
+
+// (d) Dimensiunea razelor de border
+$border-radius:    0.875rem;
+$border-radius-sm: 0.5rem;
+$border-radius-lg: 1.25rem;
+
+// (e) Dimensiunea literelor headingurilor
+$h1-font-size: 2.75rem;
+$h2-font-size: 2.1rem;
+$h3-font-size: 1.6rem;
+$h4-font-size: 1.3rem;
+$h5-font-size: 1.1rem;
+$h6-font-size: 0.95rem;
+
+// (f) Familia de font implicita
+$font-family-sans-serif: "Rajdhani", "Inter", system-ui, -apple-system, sans-serif;
+
+// (g) Variabile suplimentare alese de noi
+$link-color:               $primary;          // culoarea linkurilor
+$link-hover-color:         #ea580c;
+$enable-rounded:           true;
+$spacer:                   1.25rem;           // spatierea de baza
+$headings-font-weight:     700;
+
+// ── 3. Restul Bootstrap-ului ──
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/root";
+
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/type";
+@import "bootstrap/scss/images";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/buttons";
+@import "bootstrap/scss/card";
+@import "bootstrap/scss/badge";
+@import "bootstrap/scss/alert";
+@import "bootstrap/scss/utilities";
+@import "bootstrap/scss/utilities/api";

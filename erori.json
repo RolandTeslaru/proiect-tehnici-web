@@ -1,30 +1,30 @@
 {
   "cale_baza": "/resurse/imagini/erori",
   "eroare_default": {
-    "titlu": "Eroare Necunoscută",
-    "text": "A apărut o eroare neprevăzută.",
+    "titlu": "Eroare Necunoscuta",
+    "text": "A aparut o eroare neprevazuta.",
     "imagine": "eroare_default.png"
   },
   "info_erori": [
     {
       "identificator": 404,
       "status": true,
-      "titlu": "Pagina nu a fost găsită",
-      "text": "Ne pare rău, dar pagina pe care o căutați nu există.",
+      "titlu": "Pagina nu a fost gasita",
+      "text": "Ne pare rau, dar pagina pe care o cautati nu exista.",
       "imagine": "eroare404.png"
     },
     {
       "identificator": 403,
       "status": true,
       "titlu": "Acces Interzis",
-      "text": "Nu aveți permisiunea de a accesa această resursă.",
+      "text": "Nu aveti permisiunea de a accesa aceasta resursa.",
       "imagine": "eroare403.png"
     },
     {
       "identificator": 400,
       "status": true,
-      "titlu": "Cerere Gresită",
-      "text": "Cererea dumneavoastră este invalidă (ex: fișier .ejs cerut direct).",
+      "titlu": "Cerere Gresita",
+      "text": "Cererea dumneavoastra este invalida (ex: fisier .ejs cerut direct).",
       "imagine": "eroare400.png"
     }
   ]
