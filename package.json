@@ -26,10 +26,12 @@
     "bootstrap": "^5.3.8",
     "ejs": "^5.0.2",
     "express": "^5.2.1",
+    "mysql2": "^3.22.4",
     "sass": "^1.100.0",
     "sharp": "^0.34.5"
   },
   "devDependencies": {
+    "jsdom": "^29.1.1",
     "nodemon": "^3.1.14"
   }
 }

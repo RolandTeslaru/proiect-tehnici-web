@@ -22,13 +22,24 @@
                     <li><a href="/index#zona8">Resurse si Media</a></li>
                 </ul>
             </li>
+            <li class="menu-item link-produse">
+                <a href="/produse">
+                    <i class="fa-solid fa-box"></i>
+                    <span class="menu-text">Produse</span>
+                </a>
+                <ul class="submenu">
+                    <li><a href="/produse">Toate</a></li>
+                    <% (locals.categoriiProduse || []).forEach(function(categ) { %>
+                        <li><a href="/produse?categorie=<%= categ %>"><%= categ.charAt(0).toUpperCase() + categ.slice(1) %></a></li>
+                    <% }); %>
+                </ul>
+            </li>
             <li class="menu-item link-portofoliu">
                 <a href="#">
                     <i class="fa-solid fa-briefcase"></i>
-                    <span class="menu-text">Divizii si Cataloage</span>
+                    <span class="menu-text">Divizii si Servicii</span>
                 </a>
                 <ul class="submenu">
-                    <li><a href="/catalog">Catalog Produse (Divizia Militara)</a></li>
                     <li><a href="/contractare">Contractare Guvernamentala (FMS)</a></li>
                     <li><a href="/cibernetic">Securitate Cibernetica (Pilot)</a></li>
                 </ul>
@@ -53,8 +64,17 @@
             </li>
         </ul>
     </nav>
-    <div id="user-info">
-        <p>IP-ul tau: <%= locals.ip %></p>
+    <!-- e6b2 - select cu 3 teme in loc de toggle light/dark -->
+    <div id="comutator-tema-container" title="Alege tema">
+        <i class="fa-solid fa-palette" aria-hidden="true"></i>
+        <select id="comutator-tema" aria-label="Alege tema">
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+            <option value="tactical">Tactical</option>
+        </select>
     </div>
+    <!-- <div id="user-info">
+        <p>IP-ul tau: <%= locals.ip %></p>
+    </div> -->
     <!-- <p>Expertiza <strong>B2G</strong> pentru excelenta si <strong>inovatie militara</strong> globala.</p> -->
 </header>

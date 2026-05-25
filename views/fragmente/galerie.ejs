@@ -1,9 +1,11 @@
+<%# e5 galerie-statica: fragment partajat — inclus atat in index.ejs cat si in pagini/galerie.ejs %>
 <section class="galerie" aria-label="Galerie de imagini">
     <% if (!locals.imagini || imagini.length === 0) { %>
         <p style="text-align:center; padding: 2rem;">Nu exista imagini de afisat pentru luna curenta.</p>
     <% } else { %>
         <div class="galerie-grid">
             <% imagini.forEach(function(img) { %>
+                <%# e5 galerie-statica: <figure><picture> cu surse responsive + <figcaption> cu index grecesc %>
                 <figure class="galerie-item">
                     <div class="galerie-img-wrap">
                         <picture>

@@ -228,7 +228,25 @@
         </section>
     </main>
 
-    <!-- Galerie statica full-width (acelasi fragment ca pe pagina /galerie) -->
+    <!-- e6b18 - produse noi: listate in ordine invers cronologica, cu link catre pagina fiecaruia -->
+    <% if (locals.produsNoi && produsNoi.length) { %>
+    <section id="produse-noi">
+        <h2>Produse Recent Adaugate</h2>
+        <ul class="lista-produse-noi">
+            <% produsNoi.forEach(function(p) { %>
+            <li>
+                <a href="/produs/<%= p.id %>">
+                    <img src="<%= p.imagine %>" alt="<%= p.nume %>" loading="lazy">
+                    <span class="pn-nume"><%= p.nume %></span>
+                </a>
+                <span class="pn-categorie"><%= p.categorie %></span>
+            </li>
+            <% }); %>
+        </ul>
+    </section>
+    <% } %>
+
+    <!-- e5 galerie-statica: galerie full-width inclusa ca fragment (acelasi cod ca /galerie) -->
     <%- include("../fragmente/galerie", { imagini: locals.imagini || [] }) %>
 
     <%- include("../fragmente/footer") %>

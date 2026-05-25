@@ -4,6 +4,7 @@ const path = require('path');
 const ejs = require('ejs');
 const sass = require('sass');
 const sharp = require('sharp');
+const bazaDate = require('./bazaDate');
 
 const app = express();
 const port = 8080;
@@ -25,7 +26,9 @@ global.obGlobal = {
     obErori: null,
     imaginiEroriExistente: true,
     obGalerie: null,
-    // Etapa 5: cai catre folderele scss/css din folderul de resurse
+    // categoriile le iau din DB o data la pornire si le tin aici pt meniu
+    categoriiProduse: [],
+    // e5 compilare-scss: folderScss si folderCss in obGlobal
     folderScss: path.join(__dirname, 'resurse', 'scss'),
     folderCss: path.join(__dirname, 'resurse', 'css')
 };
@@ -116,17 +119,17 @@ function initErori() {
 initErori();
 
 // ============================================================
-//  ETAPA 5 — Compilare automata SCSS (0.25p)
+//  e5 compilare-scss (0.25p)
 // ============================================================
 
-// Bonus 4: lastIndexOf ca sa mearga si pt nume cu puncte (stil.frumos.scss)
+// e5b4 compilare-scss: lastIndexOf pt fisiere cu puncte in nume (stil.frumos.scss)
 function schimbaExtensiaCss(numeFisier) {
     const idx = numeFisier.lastIndexOf('.');
     const baza = idx === -1 ? numeFisier : numeFisier.slice(0, idx);
     return baza + '.css';
 }
 
-// compileaza un scss in css; cai relative => relative la folderScss/folderCss
+// e5 compilare-scss: functia compileazaScss (cai relative/absolute, backup, sass.compile)
 function compileazaScss(caleScss, caleCss) {
     const { folderScss, folderCss } = global.obGlobal;
 
@@ -145,12 +148,12 @@ function compileazaScss(caleScss, caleCss) {
             : path.join(folderCss, caleCss);
     }
 
-    // backup la css-ul vechi inainte de a-l suprascrie
+    // e5 compilare-scss: backup la css-ul vechi inainte de suprascrierea sa
     if (fs.existsSync(caleCssAbs)) {
         try {
             const folderBackupCss = path.join(__dirname, 'backup', 'resurse', 'css');
             fs.mkdirSync(folderBackupCss, { recursive: true });
-            // Bonus 3: timestamp in nume (a.css -> a_<timestamp>.css)
+            // e5b3 compilare-scss: timestamp in numele fisierului de backup (a.css -> a_<timestamp>.css)
             const numeCss = path.basename(caleCssAbs);
             const numeBackup = schimbaExtensiaCss(numeCss).replace(/\.css$/, '') + '_' + Date.now() + '.css';
             fs.copyFileSync(caleCssAbs, path.join(folderBackupCss, numeBackup));
@@ -174,7 +177,7 @@ function compileazaScss(caleScss, caleCss) {
     }
 }
 
-// compileaza toate scss-urile din folderScss (sare peste partialele _*.scss)
+// e5 compilare-scss: compilare initiala a tuturor scss-urilor (sare partialele _*.scss)
 function compileazaToateScss() {
     const { folderScss } = global.obGlobal;
     if (!fs.existsSync(folderScss)) {
@@ -190,7 +193,7 @@ function compileazaToateScss() {
 
 compileazaToateScss();
 
-// compilare pe parcurs cu fs.watch (debounce, fs.watch da evenimente duble)
+// e5 compilare-scss: compilare pe parcurs cu fs.watch + debounce (fs.watch da evenimente duble)
 const ultimeCompilari = {};
 fs.watch(global.obGlobal.folderScss, (event, filename) => {
     if (!filename || !filename.endsWith('.scss')) return;
@@ -212,10 +215,7 @@ fs.watch(global.obGlobal.folderScss, (event, filename) => {
     }
 });
 
-// ============================================================
-//  ETAPA 5 — Galerie statica (0.35p) + validare JSON (Bonus 5)
-// ============================================================
-
+// e5 galerie-statica: initGalerie la pornire + e5b5 validare JSON
 function initGalerie() {
     const caleGalerieJson = path.join(__dirname, 'galerie.json');
 
@@ -232,12 +232,12 @@ function initGalerie() {
         return;
     }
 
-    // Bonus 5a: folderul din cale_galerie trebuie sa existe
+    // e5b5 galerie-statica: verificare existenta folder cale_galerie
     const folderGalerieAbs = path.join(__dirname, obGalerie.cale_galerie || '');
     if (!obGalerie.cale_galerie || !fs.existsSync(folderGalerieAbs)) {
         console.error(`EROARE: Folderul galeriei specificat in 'cale_galerie' ('${obGalerie.cale_galerie}') nu exista in sistemul de fisiere la calea ${folderGalerieAbs}.`);
     } else {
-        // Bonus 5b: fiecare imagine din lista trebuie sa existe pe disc
+        // e5b5 galerie-statica: verificare existenta fiecarui fisier imagine din JSON
         (obGalerie.imagini || []).forEach(img => {
             const caleImg = path.join(folderGalerieAbs, img.cale_fisier);
             if (!fs.existsSync(caleImg)) {
@@ -254,7 +254,7 @@ initGalerie();
 const LUNI_RO = ["ianuarie", "februarie", "martie", "aprilie", "mai", "iunie",
     "iulie", "august", "septembrie", "octombrie", "noiembrie", "decembrie"];
 
-// genereaza variantele -medium/-small cu sharp daca nu exista deja
+// e5 galerie-statica: generare variante -medium/-small cu sharp la prima cerere a paginii
 async function genereazaVarianteImagine(folderGalerieAbs, numeFisier) {
     const idx = numeFisier.lastIndexOf('.');
     const baza = idx === -1 ? numeFisier : numeFisier.slice(0, idx);
@@ -279,7 +279,7 @@ async function genereazaVarianteImagine(folderGalerieAbs, numeFisier) {
     }
 }
 
-// imaginile potrivite lunii curente, max 12 (dataCurenta = modificabila pt testare)
+// e5 galerie-statica: filtrare dupa luna curenta, trunchiere la 12, alt fallback
 async function getImaginiGalerie(dataCurenta = new Date()) {
     const obGalerie = global.obGlobal.obGalerie;
     if (!obGalerie || !Array.isArray(obGalerie.imagini)) return [];
@@ -338,13 +338,15 @@ function afisareEroare(res, identificator, titlu, text, imagine) {
     });
 }
 
-// salvare ip prin middeware 
+// salvare ip prin middeware
 app.use((req, res, next) => {
     res.locals.ip = req.ip;
+    // le pun in locals ca sa le am in meniu pe orice pagina
+    res.locals.categoriiProduse = global.obGlobal.categoriiProduse;
     next();
 });
 
-// T19: Creare foldere
+// T19: Creare foldere (e5 compilare-scss: "backup" inclus pentru salvarea fisierelor css vechi)
 const vect_foldere = ["temp", "logs", "backup", "fisiere_uploadate"];
 vect_foldere.forEach(f => {
     const cale = path.join(__dirname, f);
@@ -386,11 +388,15 @@ app.get(/.*\.ejs$/, (req, res) => {
     afisareEroare(res, 400);
 });
 
-// T8: Prima pagina — transmite imaginile galeriei (filtrate dupa luna)
+// e5 galerie-statica: ruta index — apeleaza getImaginiGalerie si transmite imaginile
+// e6b18 - trimite si produsele noi (ultimele 365 zile, max 6) pt sectiunea de pe homepage
 app.get(["/", "/index", "/home"], async (req, res) => {
     try {
-        const imagini = await getImaginiGalerie();
-        res.render('pagini/index', { imagini }, (err, rezultatRandare) => {
+        const [imagini, produsNoi] = await Promise.all([
+            getImaginiGalerie(),
+            bazaDate.getProdusNoi(365, 6)
+        ]);
+        res.render('pagini/index', { imagini, produsNoi }, (err, rezultatRandare) => {
             if (err) {
                 console.error(err);
                 afisareEroare(res, 500, "Eroare Server", "A aparut o eroare la procesarea paginii.");
@@ -404,7 +410,7 @@ app.get(["/", "/index", "/home"], async (req, res) => {
     }
 });
 
-// Etapa 5: pagina dedicata galeriei (foloseste acelasi fragment)
+// e5 galerie-statica: ruta /galerie — pagina dedicata, foloseste acelasi fragment partajat
 app.get("/galerie", async (req, res) => {
     try {
         const imagini = await getImaginiGalerie();
@@ -422,6 +428,59 @@ app.get("/galerie", async (req, res) => {
     }
 });
 
+// rute produse
+
+// toate suboptiunile din meniu lovesc aceeasi ruta, doar cu alt query
+// /produse = tot, /produse?categorie=X = doar categoria aia (filtrare pe server)
+app.get("/produse", async (req, res) => {
+    try {
+        let categorie = req.query.categorie;
+        // daca cineva pune o categorie inventata in url, o ignor
+        if (categorie && !global.obGlobal.categoriiProduse.includes(categorie)) {
+            categorie = null;
+        }
+        const produse = await bazaDate.getProduse(categorie);
+        res.render('pagini/produse', { produse, categorieCurenta: categorie || null }, (err, html) => {
+            if (err) {
+                console.error(err);
+                afisareEroare(res, 500, "Eroare Server", "A aparut o eroare la afisarea produselor.");
+            } else {
+                res.send(html);
+            }
+        });
+    } catch (err) {
+        console.error(err);
+        afisareEroare(res, 500, "Eroare Server", "A aparut o eroare la preluarea produselor din baza de date.");
+    }
+});
+
+// pagina unui singur produs, generata din ce e in DB
+app.get("/produs/:id", async (req, res) => {
+    try {
+        const id = parseInt(req.params.id, 10);
+        if (Number.isNaN(id)) {
+            return afisareEroare(res, 404);
+        }
+        const produs = await bazaDate.getProdusDupaId(id);
+        if (!produs) {
+            return afisareEroare(res, 404, "Produs inexistent", "Produsul cautat nu a fost gasit in catalog.");
+        }
+        // e6b16 - produse similare: aceeasi categorie, max 4
+        const produseSimilare = await bazaDate.getProduseSimilare(produs.categorie, id, 4);
+        res.render('pagini/produs', { produs, produseSimilare }, (err, html) => {
+            if (err) {
+                console.error(err);
+                afisareEroare(res, 500, "Eroare Server", "A aparut o eroare la afisarea produsului.");
+            } else {
+                res.send(html);
+            }
+        });
+    } catch (err) {
+        console.error(err);
+        afisareEroare(res, 500, "Eroare Server", "A aparut o eroare la preluarea produsului din baza de date.");
+    }
+});
+
 // T18: Favicon
 app.get("/favicon.ico", (req, res) => {
     res.sendFile(path.join(__dirname, "resurse/ico/favicon.ico"));
@@ -434,6 +493,43 @@ app.get("/*pagina", (req, res) => {
     randeazaPagina(res, pagina);
 });
 
- app.listen(port, () => {
-    console.log(`Serverul ruleaza la http://localhost:${port}`);
-});
+// iau categoriile din DB inainte sa pornesc serverul, ca sa am meniul gata
+async function pornesteServer() {
+    try {
+        global.obGlobal.categoriiProduse = await bazaDate.getValoriEnum('categorie');
+        console.log('Categorii produse (din DB):', global.obGlobal.categoriiProduse);
+    } catch (err) {
+        console.error('EROARE la incarcarea categoriilor din baza de date:', err.message);
+    }
+
+    app.listen(port, () => {
+        console.log(`Serverul ruleaza la http://localhost:${port}`);
+    });
+}
+
+pornesteServer();
+
+// e6b13 - sterge recursiv fisierele din backup mai vechi de T minute
+var BACKUP_T_MINUTE = 30;
+var BACKUP_DIR = path.join(__dirname, 'backup');
+
+function stergeBackupVechi(dir) {
+    if (!fs.existsSync(dir)) return;
+    fs.readdirSync(dir).forEach(function(nume) {
+        var cale = path.join(dir, nume);
+        var stat = fs.statSync(cale);
+        if (stat.isDirectory()) {
+            stergeBackupVechi(cale);
+        } else {
+            var varstaMinute = (Date.now() - stat.mtimeMs) / 60000;
+            if (varstaMinute > BACKUP_T_MINUTE) {
+                fs.unlinkSync(cale);
+                console.log('backup sters (>' + BACKUP_T_MINUTE + 'min):', cale);
+            }
+        }
+    });
+}
+
+setInterval(function() {
+    stergeBackupVechi(BACKUP_DIR);
+}, BACKUP_T_MINUTE * 60 * 1000);

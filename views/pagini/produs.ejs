@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <title><%= produs.nume %> | Aegis Dynamics</title>
+    <%- include("../fragmente/head") %>
+</head>
+
+<body id="top">
+    <%- include("../fragmente/header") %>
+
+    <%
+    var zileRo = ["Duminica", "Luni", "Marti", "Miercuri", "Joi", "Vineri", "Sambata"];
+    var luniRo = ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie",
+                  "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"];
+    var d = new Date(produs.data_introducerii);
+    // ISO din componente locale, ca sa nu se decaleze ziua din cauza UTC
+    var dataIso = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    var dataRo = d.getDate() + "(" + zileRo[d.getDay()] + ")/" + luniRo[d.getMonth()] + "/" + d.getFullYear();
+    %>
+
+    <main class="layout-grid">
+        <section id="produs-detaliu" class="produs <%= produs.categorie %>">
+            <h2><%= produs.nume %></h2>
+
+            <img class="produs-imagine-mare" src="<%= produs.imagine %>" alt="<%= produs.nume %>">
+
+            <p><%= produs.descriere %></p>
+
+            <table class="produs-tabel-detaliu">
+                <tbody>
+                    <tr><th>Categorie</th><td><%= produs.categorie %></td></tr>
+                    <tr><th>Tip livrare</th><td><%= produs.tip_livrare %></td></tr>
+                    <tr><th>Pret</th><td><%= produs.pret %> EUR</td></tr>
+                    <tr><th>Autonomie</th><td><%= produs.autonomie_km %> km</td></tr>
+                    <tr><th>Data introducerii</th><td><time datetime="<%= dataIso %>"><%= dataRo %></time></td></tr>
+                    <tr><th>Nivel clasificare</th><td><%= produs.nivel_clasificare %></td></tr>
+                    <tr><th>Compatibilitati</th><td><%= produs.compatibilitati %></td></tr>
+                    <tr><th>Export permis</th><td><%= produs.export_permis ? "Da" : "Nu" %></td></tr>
+                </tbody>
+            </table>
+
+            <p><a href="/produse">&larr; Inapoi la catalog</a></p>
+        </section>
+
+        <!-- e6b16 - produse similare din aceeasi categorie -->
+        <% if (locals.produseSimilare && produseSimilare.length) { %>
+        <section id="produse-similare">
+            <h3>Produse similare din categoria <em><%= produs.categorie %></em></h3>
+            <ul class="lista-produse-similare">
+                <% produseSimilare.forEach(function(ps) { %>
+                <li>
+                    <a href="/produs/<%= ps.id %>">
+                        <img src="<%= ps.imagine %>" alt="<%= ps.nume %>" loading="lazy">
+                        <span><%= ps.nume %></span>
+                    </a>
+                </li>
+                <% }); %>
+            </ul>
+        </section>
+        <% } %>
+    </main>
+
+    <%- include("../fragmente/footer") %>
+</body>
+
+</html>

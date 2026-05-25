@@ -1,15 +1,12 @@
-// ============================================================
-//  custom.scss — Customizare Bootstrap (Etapa 5, 0.25p)
-//  Schema cromatica Aegis Dynamics (portocaliu pe fundal inchis)
-//  Compilat automat de compileazaScss() la pornirea serverului.
-// ============================================================
+// e5 bootstrap-custom: customizare Bootstrap cu schema cromatica Aegis
+// Compilat automat de compileazaScss la pornirea serverului
 
-// ── 1. Functii Bootstrap (necesare pentru map-uri / culori) ──
+// Functii Bootstrap
 @import "bootstrap/scss/functions";
 
-// ── 2. Override de variabile (INAINTE de restul Bootstrap) ──
+// Variabile schimbate inainte de importul Bootstrap
 
-// Schema cromatica proprie
+// e5 bootstrap-custom: culori de baza (min 2 teme: light + dark)
 $primary:   #FFB547; // portocaliu Aegis
 $secondary: #FF9A32;
 $success:   #3fb37f;
@@ -17,21 +14,21 @@ $info:      #4aa3ff;
 $warning:   #FFD089;
 $danger:    #e5484d;
 
-// (a) Culori de background pentru 2 teme (light + dark) cu schema customizata
-$body-bg:          #F4ECDD; // tema light: crem cald (derivat din accent)
-$body-color:       #2C1810; // text inchis pe light
-$body-bg-dark:     #050609; // tema dark: fundalul site-ului Aegis
+// e5 bootstrap-custom: background pentru min 2 teme (light + dark)
+$body-bg:          #F4ECDD; // crem deschis
+$body-color:       #2C1810; // text inchis
+$body-bg-dark:     #050609; // fundal inchis
 $body-color-dark:  #F9F4EA;
 
-// (b) Culoare de font intr-un buton (litere) — textul butonului .btn-primary
-$btn-color: #050609; // litere inchise pe butonul portocaliu (contrast)
+// e5 bootstrap-custom: culoare font pe butoane
+$btn-color: #050609; // contrast bun pe portocaliu
 
-// (c) Dimensiuni de ecran diferite pentru ecrane medii si mari
+// e5 bootstrap-custom: breakpoint-uri diferite pentru ecran mediu (md) si mare (lg)
 $grid-breakpoints: (
   xs: 0,
   sm: 576px,
-  md: 820px,   // ecran mediu customizat (implicit 768px)
-  lg: 1100px,  // ecran mare customizat (implicit 992px)
+  md: 820px,   // mediu
+  lg: 1100px,  // mare
   xl: 1320px,
   xxl: 1500px
 );
@@ -42,12 +39,12 @@ $container-max-widths: (
   xxl: 1440px
 );
 
-// (d) Dimensiunea razelor de border
+// e5 bootstrap-custom: dimensiunea razelor de border
 $border-radius:    0.875rem;
 $border-radius-sm: 0.5rem;
 $border-radius-lg: 1.25rem;
 
-// (e) Dimensiunea literelor headingurilor
+// e5 bootstrap-custom: dimensiunea literelor headingurilor (h1-h6)
 $h1-font-size: 2.75rem;
 $h2-font-size: 2.1rem;
 $h3-font-size: 1.6rem;
@@ -55,17 +52,30 @@ $h4-font-size: 1.3rem;
 $h5-font-size: 1.1rem;
 $h6-font-size: 0.95rem;
 
-// (f) Familia de font implicita
+// e5 bootstrap-custom: familia de font implicita
 $font-family-sans-serif: "Rajdhani", "Inter", system-ui, -apple-system, sans-serif;
 
-// (g) Variabile suplimentare alese de noi
-$link-color:               $primary;          // culoarea linkurilor
+// e5 bootstrap-custom: variabile aditionale alese (link-color, spacer, headings-font-weight etc.)
+$link-color:               $primary;          // linkuri
 $link-hover-color:         #ea580c;
 $enable-rounded:           true;
-$spacer:                   1.25rem;           // spatierea de baza
+$spacer:                   1.25rem;           // spatiu de baza
 $headings-font-weight:     700;
 
-// ── 3. Restul Bootstrap-ului ──
+// Butoane: raza si grosimea borderului date de noi prin variabile
+$btn-border-width:     2px;
+$btn-border-radius:    0.6rem;
+$btn-border-radius-sm: 0.4rem;
+$btn-border-radius-lg: 0.85rem;
+
+// Input range: bulina cu 50% mai mare decat font-size-ul html (1rem -> 1.5rem) + culori
+$form-range-thumb-width:     1.5rem;
+$form-range-thumb-bg:        $primary;     // culoarea bulinei
+$form-range-thumb-active-bg: $secondary;
+$form-range-track-bg:        #2C1810;       // culoarea sliderului
+$form-range-track-height:    0.6rem;
+
+// Restul Bootstrap
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/variables-dark";
 @import "bootstrap/scss/maps";
@@ -78,8 +88,12 @@ $headings-font-weight:     700;
 @import "bootstrap/scss/containers";
 @import "bootstrap/scss/grid";
 @import "bootstrap/scss/buttons";
+@import "bootstrap/scss/forms";
 @import "bootstrap/scss/card";
 @import "bootstrap/scss/badge";
 @import "bootstrap/scss/alert";
+@import "bootstrap/scss/close";
+@import "bootstrap/scss/modal";
+@import "bootstrap/scss/transitions";
 @import "bootstrap/scss/utilities";
 @import "bootstrap/scss/utilities/api";

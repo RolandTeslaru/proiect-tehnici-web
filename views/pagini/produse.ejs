@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <title>Produse | Aegis Dynamics</title>
+    <%- include("../fragmente/head") %>
+</head>
+
+<body id="top">
+    <%- include("../fragmente/header") %>
+
+    <%
+    // e6b1 - atributele inputurilor (min/max range, optiunile datalist/radio/checkbox/select) sunt generate din datele din baza de date
+    // valorile pt inputuri le scot din produsele afisate, ca sa se potriveasca cu ce e in pagina
+    var preturi = produse.map(function(p){ return Number(p.pret); });
+    var minPret = preturi.length ? Math.floor(Math.min.apply(null, preturi)) : 0;
+    var maxPret = preturi.length ? Math.ceil(Math.max.apply(null, preturi)) : 0;
+
+    var autonomii = Array.from(new Set(produse.map(function(p){ return p.autonomie_km; }))).sort(function(a,b){ return a-b; });
+    var livrari = Array.from(new Set(produse.map(function(p){ return p.tip_livrare; })));
+    var clasificari = Array.from(new Set(produse.map(function(p){ return p.nivel_clasificare; })));
+
+    // compatibilitatile sunt valori multiple separate cu virgula -> le sparg si iau unicele
+    var setCompat = {};
+    produse.forEach(function(p){
+        p.compatibilitati.split(",").forEach(function(c){
+            c = c.trim();
+            if (c) setCompat[c] = true;
+        });
+    });
+    var compatibilitati = Object.keys(setCompat).sort();
+    %>
+
+    <main class="layout-grid">
+        <section id="zona-produse">
+            <h2>
+                Catalog Produse<% if (locals.categorieCurenta) { %> &mdash; <%= categorieCurenta.charAt(0).toUpperCase() + categorieCurenta.slice(1) %><% } %>
+            </h2>
+
+            <!-- sectiune de filtre, NU form (filtrarea se face in js pe client) -->
+            <section id="filtre" aria-label="Filtre produse">
+                <div class="row g-4" id="filtre-grid">
+
+                    <!-- coloana stanga: campuri simple -->
+                    <div class="col-12 col-lg-6" id="filtre-stanga">
+                        <div class="filtru">
+                            <label for="f-nume" class="form-label">Nume contine</label>
+                            <input type="text" id="f-nume" class="form-control form-control-sm" placeholder="ex: drona">
+                        </div>
+
+                        <div class="filtru">
+                            <label for="f-pret" class="form-label">
+                                Pret maxim
+                                <span class="text-muted">(<%= minPret %> &ndash; <%= maxPret %>, selectat: <span id="f-pret-val"><%= maxPret %></span>)</span>
+                            </label>
+                            <input type="range" id="f-pret" class="form-range" min="<%= minPret %>" max="<%= maxPret %>" value="<%= maxPret %>" step="100">
+                        </div>
+
+                        <div class="filtru">
+                            <label for="f-autonomie" class="form-label">Autonomie minima (km)</label>
+                            <input type="text" id="f-autonomie" class="form-control form-control-sm" list="lista-autonomie" placeholder="orice">
+                            <datalist id="lista-autonomie">
+                                <% autonomii.forEach(function(a){ %><option value="<%= a %>"></option><% }); %>
+                            </datalist>
+                        </div>
+
+                        <div class="filtru">
+                            <div class="form-floating">
+                                <textarea id="f-descriere" class="form-control" placeholder="cuvinte cheie" style="height: 90px"></textarea>
+                                <label for="f-descriere">Cuvinte cheie in descriere (separate cu virgula)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- coloana dreapta: controale complexe -->
+                    <div class="col-12 col-lg-6" id="filtre-dreapta">
+                        <fieldset class="filtru" id="f-livrare-grup">
+                            <legend class="form-label">Tip livrare</legend>
+                            <div class="d-flex flex-wrap gap-2" role="group">
+                                <input type="radio" class="btn-check" name="f-livrare" id="liv-oricare" value="" checked>
+                                <label class="btn btn-outline-primary btn-sm" for="liv-oricare">Oricare</label>
+                                <% livrari.forEach(function(l, i){ %>
+                                    <input type="radio" class="btn-check" name="f-livrare" id="liv-<%= i %>" value="<%= l %>">
+                                    <label class="btn btn-outline-primary btn-sm" for="liv-<%= i %>"><%= l %></label>
+                                <% }); %>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="filtru" id="f-compat-grup">
+                            <legend class="form-label">Compatibilitati (cel putin una)</legend>
+                            <div class="d-flex flex-wrap gap-2">
+                                <% compatibilitati.forEach(function(c, i){ %>
+                                    <input type="checkbox" class="btn-check" name="f-compat" id="compat-<%= i %>" value="<%= c %>" checked>
+                                    <label class="btn btn-outline-secondary btn-sm" for="compat-<%= i %>"><%= c %></label>
+                                <% }); %>
+                            </div>
+                        </fieldset>
+
+                        <div class="filtru">
+                            <label for="f-export" class="form-label">Export permis</label>
+                            <select id="f-export" class="form-select form-select-sm">
+                                <option value="">Oricare</option>
+                                <option value="1">Da</option>
+                                <option value="0">Nu</option>
+                            </select>
+                        </div>
+
+                        <div class="filtru">
+                            <label for="f-clasificare" class="form-label">Nivel clasificare</label>
+                            <select id="f-clasificare" class="form-select form-select-sm" multiple size="<%= clasificari.length %>">
+                                <% clasificari.forEach(function(c){ %>
+                                    <option value="<%= c %>" selected><%= c %></option>
+                                <% }); %>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- e6b8 - chei de sortare alese de user -->
+                <div class="d-flex flex-wrap align-items-center gap-2 mt-3" id="sort-chei">
+                    <label class="form-label mb-0 text-nowrap" for="sort-cheie1">Sorteaza dupa</label>
+                    <select id="sort-cheie1" class="form-select form-select-sm" style="width:auto">
+                        <option value="pret" selected>Pret</option>
+                        <option value="autonomie">Autonomie</option>
+                        <option value="nrcompat">Nr. compatibilitati</option>
+                        <option value="data">Data adaugarii</option>
+                    </select>
+                    <label class="form-label mb-0 text-nowrap" for="sort-cheie2">apoi dupa</label>
+                    <select id="sort-cheie2" class="form-select form-select-sm" style="width:auto">
+                        <option value="pret">Pret</option>
+                        <option value="autonomie">Autonomie</option>
+                        <option value="nrcompat" selected>Nr. compatibilitati</option>
+                        <option value="data">Data adaugarii</option>
+                    </select>
+                </div>
+
+                <!-- butoane full width -->
+                <div class="filtru-butoane d-flex flex-wrap gap-2 mt-2">
+                    <button type="button" id="btn-filtreaza" class="btn btn-primary btn-sm">
+                        <i class="bi bi-funnel"></i> <span class="d-none d-sm-inline">Filtreaza</span>
+                    </button>
+                    <button type="button" id="btn-sort-asc" class="btn btn-secondary btn-sm">
+                        <i class="bi bi-sort-up"></i> <span class="d-none d-sm-inline">Sortare crescatoare</span>
+                    </button>
+                    <button type="button" id="btn-sort-desc" class="btn btn-secondary btn-sm">
+                        <i class="bi bi-sort-down"></i> <span class="d-none d-sm-inline">Sortare descrescatoare</span>
+                    </button>
+                    <button type="button" id="btn-calculeaza" class="btn btn-primary btn-sm">
+                        <i class="bi bi-calculator"></i> <span class="d-none d-sm-inline">Calculeaza media preturilor</span>
+                    </button>
+                    <button type="button" id="btn-reseteaza" class="btn btn-outline-danger btn-sm">
+                        <i class="bi bi-arrow-counterclockwise"></i> <span class="d-none d-sm-inline">Reseteaza</span>
+                    </button>
+                </div>
+            </section>
+
+            <p id="numar-produse"></p>
+            <%/* e6b3 - mesaj afisat cand filtrarea nu returneaza niciun rezultat */%>
+            <p id="mesaj-gol" class="ascuns">Nu exista produse conform filtrarii curente.</p>
+
+            <div id="lista-produse">
+                <% produse.forEach(function(produs) { %>
+                    <%- include("../fragmente/_articolProdus", { produs: produs }) %>
+                <% }); %>
+            </div>
+        </section>
+    </main>
+
+    <%- include("../fragmente/footer") %>
+
+    <a href="#top" id="link-top" title="Inapoi la inceputul paginii">
+        <div id="triunghi"></div>
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="/resurse/js/produse.js"></script>
+</body>
+
+</html>

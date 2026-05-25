@@ -1,0 +1,34 @@
+<%/* e6b11 - fragment modal quick-view, randat server-side per produs */%>
+<div class="modal fade" id="modal-produs-<%= produs.id %>" tabindex="-1"
+     aria-labelledby="modal-titlu-<%= produs.id %>" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-titlu-<%= produs.id %>"><%= produs.nume %></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Inchide"></button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-produs-grid">
+                    <img src="<%= produs.imagine %>" alt="<%= produs.nume %>" class="modal-produs-img">
+                    <table class="modal-produs-tabel">
+                        <tr><th>Categorie</th><td><%= produs.categorie %></td></tr>
+                        <tr><th>Pret</th><td><%= produs.pret %> EUR</td></tr>
+                        <tr><th>Autonomie</th><td><%= produs.autonomie_km %> km</td></tr>
+                        <tr><th>Tip livrare</th><td><%= produs.tip_livrare %></td></tr>
+                        <tr><th>Clasificare</th><td><%= produs.nivel_clasificare %></td></tr>
+                        <tr><th>Compatibilitati</th><td><%= produs.compatibilitati %></td></tr>
+                        <tr><th>Export permis</th><td><%= produs.export_permis ? "Da" : "Nu" %></td></tr>
+                        <tr><th>Data introducerii</th><td><time datetime="<%= dataIso %>"><%= dataRo %></time></td></tr>
+                    </table>
+                </div>
+                <p class="mt-3"><%= produs.descriere %></p>
+            </div>
+            <div class="modal-footer">
+                <a href="/produs/<%= produs.id %>" class="btn btn-primary btn-sm">
+                    <i class="bi bi-box-arrow-up-right"></i> Pagina completa
+                </a>
+                <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Inchide</button>
+            </div>
+        </div>
+    </div>
+</div>

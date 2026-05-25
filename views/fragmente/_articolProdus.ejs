@@ -1,0 +1,72 @@
+<%
+// formatez data in stil romanesc: zi(zi_saptamana)/nume_luna/an
+var zileRo = ["Duminica", "Luni", "Marti", "Miercuri", "Joi", "Vineri", "Sambata"];
+var luniRo = ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie",
+              "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"];
+var d = new Date(produs.data_introducerii);
+// construiesc ISO din componentele locale, altfel toISOString decaleaza ziua din cauza UTC
+var dataIso = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+var dataRo = d.getDate() + "(" + zileRo[d.getDay()] + ")/" + luniRo[d.getMonth()] + "/" + d.getFullYear();
+// nr de valori din caracteristica cu mai multe valori (folosit la sortare in faza 3)
+var nrCompat = produs.compatibilitati.split(",").map(function(s){return s.trim();}).filter(Boolean).length;
+%>
+<article id="ent<%= produs.id %>" class="produs <%= produs.categorie %>"
+    data-id="<%= produs.id %>"
+    data-nume="<%= produs.nume %>"
+    data-categorie="<%= produs.categorie %>"
+    data-livrare="<%= produs.tip_livrare %>"
+    data-pret="<%= produs.pret %>"
+    data-autonomie="<%= produs.autonomie_km %>"
+    data-data="<%= dataIso %>"
+    data-clasificare="<%= produs.nivel_clasificare %>"
+    data-compatibilitati="<%= produs.compatibilitati %>"
+    data-nrcompat="<%= nrCompat %>"
+    data-export="<%= produs.export_permis %>">
+
+    <h3><a href="/produs/<%= produs.id %>"><%= produs.nume %></a></h3>
+
+    <!-- e6b6 - cele 3 butoane per produs -->
+    <div class="produs-butoane">
+        <button class="btn-pin" title="Pastreaza produsul vizibil indiferent de filtre">
+            <i class="bi bi-pin"></i>
+        </button>
+        <button class="btn-ascunde-temp" title="Ascunde temporar acest produs">
+            <i class="bi bi-eye-slash"></i>
+        </button>
+        <button class="btn-ascunde-sesiune" title="Ascunde produsul pe toata sesiunea (doar in acest tab)">
+            <i class="bi bi-x-circle"></i>
+        </button>
+    </div>
+
+    <div class="produs-continut">
+        <div class="produs-tabel">
+        <table>
+            <thead>
+                <tr>
+                    <th>Pret (EUR)</th>
+                    <th>Nivel clasificare</th>
+                    <th>Compatibilitati</th>
+                    <th>Data introducerii</th>
+                    <th>Export permis</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><%= produs.pret %></td>
+                    <td><%= produs.nivel_clasificare %></td>
+                    <td><%= produs.compatibilitati %></td>
+                    <td><time datetime="<%= dataIso %>"><%= dataRo %></time></td>
+                    <td><%= produs.export_permis ? "Da" : "Nu" %></td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <img class="produs-imagine" src="<%= produs.imagine %>" alt="<%= produs.nume %>">
+    </div>
+
+    <p class="produs-descriere"><%= produs.descriere %></p>
+    <p class="produs-categorie">Categorie: <%= produs.categorie %></p>
+</article>
+
+<%- include("_modalProdus", { produs: produs, dataIso: dataIso, dataRo: dataRo }) %>
