@@ -36,6 +36,8 @@ var nrCompat = produs.compatibilitati.split(",").map(function(s){return s.trim()
         <button class="btn-ascunde-sesiune" title="Ascunde produsul pe toata sesiunea (doar in acest tab)">
             <i class="bi bi-x-circle"></i>
         </button>
+        <!-- e6b20 - buton comparare -->
+        <button class="btn-compara" data-id="<%= produs.id %>" data-nume="<%= produs.nume %>" title="Compară acest produs">Compară</button>
     </div>
 
     <div class="produs-continut">
@@ -52,7 +54,7 @@ var nrCompat = produs.compatibilitati.split(",").map(function(s){return s.trim()
             </thead>
             <tbody>
                 <tr>
-                    <td><%= produs.pret %></td>
+                    <td class="pret-celula"><%= produs.pret %></td>
                     <td><%= produs.nivel_clasificare %></td>
                     <td><%= produs.compatibilitati %></td>
                     <td><time datetime="<%= dataIso %>"><%= dataRo %></time></td>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <title>Comparare: <%= p1.nume %> vs <%= p2.nume %> | Aegis Dynamics</title>
+    <%- include("../fragmente/head") %>
+</head>
+<body style="padding: 2rem;">
+
+    <!-- e6b20 - pagina de comparare a doua produse, deschisa intr-o fereastra noua -->
+    <h2>Comparare produse</h2>
+
+    <table class="tabel-comparare">
+        <thead>
+            <tr>
+                <th>Caracteristica</th>
+                <th><a href="/produs/<%= p1.id %>"><%= p1.nume %></a></th>
+                <th><a href="/produs/<%= p2.id %>"><%= p2.nume %></a></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Categorie</td>
+                <td><%= p1.categorie %></td>
+                <td><%= p2.categorie %></td>
+            </tr>
+            <tr>
+                <td>Pret (EUR)</td>
+                <td><%= p1.pret %></td>
+                <td><%= p2.pret %></td>
+            </tr>
+            <tr>
+                <td>Autonomie (km)</td>
+                <td><%= p1.autonomie_km %></td>
+                <td><%= p2.autonomie_km %></td>
+            </tr>
+            <tr>
+                <td>Tip livrare</td>
+                <td><%= p1.tip_livrare %></td>
+                <td><%= p2.tip_livrare %></td>
+            </tr>
+            <tr>
+                <td>Nivel clasificare</td>
+                <td><%= p1.nivel_clasificare %></td>
+                <td><%= p2.nivel_clasificare %></td>
+            </tr>
+            <tr>
+                <td>Compatibilitati</td>
+                <td><%= p1.compatibilitati %></td>
+                <td><%= p2.compatibilitati %></td>
+            </tr>
+            <tr>
+                <td>Export permis</td>
+                <td><%= p1.export_permis ? 'Da' : 'Nu' %></td>
+                <td><%= p2.export_permis ? 'Da' : 'Nu' %></td>
+            </tr>
+            <tr>
+                <td>Data introducerii</td>
+                <td><%= new Date(p1.data_introducerii).toLocaleDateString('ro-RO') %></td>
+                <td><%= new Date(p2.data_introducerii).toLocaleDateString('ro-RO') %></td>
+            </tr>
+            <tr>
+                <td>Descriere</td>
+                <td><%= p1.descriere %></td>
+                <td><%= p2.descriere %></td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

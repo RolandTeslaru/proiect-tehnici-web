@@ -265,6 +265,7 @@ main.layout-grid {
   grid-template-areas: "z1" "z2" "z3" "z6" "z5" "z8" "z4" "z7";
 }
 
+
 #banner-proiect {
   display: none;
 }
@@ -1573,8 +1574,8 @@ main.layout-grid.layout-despre {
 /* ── pagina produs individual ── */
 #produs-detaliu {
   grid-column: 1 / -1;
-  max-width: 900px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -1588,11 +1589,27 @@ main.layout-grid.layout-despre {
 
 .produs-imagine-mare {
   width: 100%;
-  max-width: 480px;
+  max-width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
   border-radius: 0.5rem;
   border: 1px solid var(--border-soft);
+}
+
+#carusel-produs {
+  width: 100%;
+  max-width: 100%;
+
+  .carousel-inner {
+    aspect-ratio: 16 / 9;
+  }
+
+  .produs-imagine-mare {
+    max-width: 100%;
+    height: 100%;
+    border-radius: 0;
+    border: none;
+  }
 }
 
 .produs-tabel-detaliu {

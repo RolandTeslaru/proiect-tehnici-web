@@ -6,7 +6,6 @@
 
 // Variabile schimbate inainte de importul Bootstrap
 
-// e5 bootstrap-custom: culori de baza (min 2 teme: light + dark)
 $primary:   #FFB547; // portocaliu Aegis
 $secondary: #FF9A32;
 $success:   #3fb37f;
@@ -14,16 +13,13 @@ $info:      #4aa3ff;
 $warning:   #FFD089;
 $danger:    #e5484d;
 
-// e5 bootstrap-custom: background pentru min 2 teme (light + dark)
 $body-bg:          #F4ECDD; // crem deschis
 $body-color:       #2C1810; // text inchis
 $body-bg-dark:     #050609; // fundal inchis
 $body-color-dark:  #F9F4EA;
 
-// e5 bootstrap-custom: culoare font pe butoane
 $btn-color: #050609; // contrast bun pe portocaliu
 
-// e5 bootstrap-custom: breakpoint-uri diferite pentru ecran mediu (md) si mare (lg)
 $grid-breakpoints: (
   xs: 0,
   sm: 576px,
@@ -39,12 +35,10 @@ $container-max-widths: (
   xxl: 1440px
 );
 
-// e5 bootstrap-custom: dimensiunea razelor de border
 $border-radius:    0.875rem;
 $border-radius-sm: 0.5rem;
 $border-radius-lg: 1.25rem;
 
-// e5 bootstrap-custom: dimensiunea literelor headingurilor (h1-h6)
 $h1-font-size: 2.75rem;
 $h2-font-size: 2.1rem;
 $h3-font-size: 1.6rem;
@@ -52,10 +46,8 @@ $h4-font-size: 1.3rem;
 $h5-font-size: 1.1rem;
 $h6-font-size: 0.95rem;
 
-// e5 bootstrap-custom: familia de font implicita
 $font-family-sans-serif: "Rajdhani", "Inter", system-ui, -apple-system, sans-serif;
 
-// e5 bootstrap-custom: variabile aditionale alese (link-color, spacer, headings-font-weight etc.)
 $link-color:               $primary;          // linkuri
 $link-hover-color:         #ea580c;
 $enable-rounded:           true;
@@ -95,5 +87,192 @@ $form-range-track-height:    0.6rem;
 @import "bootstrap/scss/close";
 @import "bootstrap/scss/modal";
 @import "bootstrap/scss/transitions";
+@import "bootstrap/scss/carousel";
+@import "bootstrap/scss/nav";
+@import "bootstrap/scss/pagination";
 @import "bootstrap/scss/utilities";
 @import "bootstrap/scss/utilities/api";
+
+// e6b12 - oferta curenta
+#sectiune-oferta {
+    background: linear-gradient(135deg, $primary 0%, $secondary 100%);
+    padding: 1.2rem 1.5rem;
+}
+
+#oferta-banner {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    color: $body-bg-dark;
+
+    &.ascuns { display: none; }
+}
+
+.oferta-titlu {
+    font-size: 1.15rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    flex-shrink: 0;
+}
+
+.oferta-detalii {
+    flex: 1;
+    font-size: 1rem;
+}
+
+.oferta-timp {
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.oferta-timer {
+    font-family: monospace;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    background: rgba(0,0,0,.2);
+    padding: .1rem .45rem;
+    border-radius: .35rem;
+}
+
+.oferta-timer-urgent {
+    color: $danger;
+    animation: puls-urgent .5s ease-in-out infinite alternate;
+}
+
+@keyframes puls-urgent {
+    from { opacity: 1; }
+    to   { opacity: .35; }
+}
+
+// e6b12 - preturi reduse in pagina produse
+.pret-vechi {
+    color: #999;
+    font-size: .9em;
+    margin-right: .3rem;
+}
+
+.pret-redus {
+    color: $success;
+    font-weight: 700;
+}
+
+// e6b20 - buton comparare per produs
+.btn-compara {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .25rem .7rem;
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    border: 1.5px solid $primary;
+    border-radius: $btn-border-radius-sm;
+    background: transparent;
+    color: $primary;
+    cursor: pointer;
+    transition: background .15s, color .15s;
+
+    &::before {
+        content: '⇄';
+        font-size: 1.2em;
+    }
+
+    &:hover:not(:disabled) {
+        background: $primary;
+        color: $body-bg-dark;
+    }
+
+    &:disabled {
+        opacity: .4;
+        cursor: not-allowed;
+        border-color: currentColor;
+    }
+}
+
+// e6b20 - container fix comparare produse
+#container-comparare {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 1050;
+    background: $body-bg-dark;
+    color: $body-color-dark;
+    border-radius: $border-radius;
+    padding: 1rem 1.25rem;
+    min-width: 230px;
+    box-shadow: 0 4px 24px rgba(0,0,0,.45);
+
+    &.ascuns { display: none; }
+}
+
+.comparare-titlu {
+    font-weight: 700;
+    font-size: .8rem;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: $primary;
+    margin-bottom: .6rem;
+}
+
+.comparare-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+    margin-bottom: .35rem;
+}
+
+.comparare-nume {
+    font-size: .88rem;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn-comparare-sterge {
+    background: none;
+    border: none;
+    color: $danger;
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 .2rem;
+    flex-shrink: 0;
+
+    &:hover { opacity: .7; }
+}
+
+// e6b20 - tabel comparare in fereastra noua
+.tabel-comparare {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+
+    th, td {
+        padding: .65rem 1rem;
+        border: 1px solid rgba(0,0,0,.12);
+        vertical-align: top;
+        text-align: left;
+    }
+
+    thead th {
+        background: $primary;
+        color: $body-bg-dark;
+        font-weight: 700;
+
+        a { color: inherit; }
+    }
+
+    tbody tr:nth-child(even) td { background: rgba(0,0,0,.03); }
+
+    tbody td:first-child {
+        font-weight: 600;
+        width: 180px;
+        background: rgba(0,0,0,.04);
+    }
+}

@@ -59,4 +59,67 @@ async function getProdusNoi(zile, limit) {
     return randuri;
 }
 
-module.exports = { pool, getValoriEnum, getProduse, getProdusDupaId, getProdusNoi, getProduseSimilare };
+// e6b10 - filtrare + sortare server-side cu parametri dinamici + paginare (b5)
+async function getProdusFiltrate({ numeContine, pretMin, pretMax, autonomieMin, tipLivrare,
+    compatibilitati, compatNone, clasificari, exportPermis, nrCompatMin, dataMin, descriere,
+    sortCheie1, sortCheie2, sortDir, pagina, perPagina, categorie }) {
+
+    const cond = [];
+    const vals = [];
+
+    if (categorie) { cond.push('categorie = ?'); vals.push(categorie); }
+    if (numeContine) { cond.push('LOWER(nume) LIKE ?'); vals.push('%' + numeContine.toLowerCase() + '%'); }
+    if (pretMin !== '' && pretMin != null) { cond.push('pret >= ?'); vals.push(Number(pretMin)); }
+    if (pretMax !== '' && pretMax != null) { cond.push('pret <= ?'); vals.push(Number(pretMax)); }
+    if (autonomieMin) { cond.push('autonomie_km >= ?'); vals.push(Number(autonomieMin)); }
+    if (tipLivrare) { cond.push('tip_livrare = ?'); vals.push(tipLivrare); }
+    if (exportPermis !== '' && exportPermis != null) { cond.push('export_permis = ?'); vals.push(exportPermis === '1' ? 1 : 0); }
+    if (dataMin) { cond.push('data_introducerii >= ?'); vals.push(dataMin); }
+    if (Number(nrCompatMin) > 0) {
+        cond.push("(LENGTH(compatibilitati) - LENGTH(REPLACE(compatibilitati, ',', '')) + 1) >= ?");
+        vals.push(Number(nrCompatMin));
+    }
+    if (descriere) {
+        const cuvinte = descriere.split(',').map(s => s.trim()).filter(Boolean);
+        if (cuvinte.length > 0) {
+            cond.push('(' + cuvinte.map(() => 'LOWER(descriere) LIKE ?').join(' OR ') + ')');
+            cuvinte.forEach(c => vals.push('%' + c.toLowerCase() + '%'));
+        }
+    }
+    if (compatNone) {
+        cond.push('1 = 0');
+    } else if (compatibilitati && compatibilitati.length > 0) {
+        cond.push('(' + compatibilitati.map(() => 'compatibilitati LIKE ?').join(' OR ') + ')');
+        compatibilitati.forEach(c => vals.push('%' + c.trim() + '%'));
+    }
+    if (clasificari && clasificari.length > 0) {
+        cond.push('nivel_clasificare IN (' + clasificari.map(() => '?').join(',') + ')');
+        clasificari.forEach(c => vals.push(c));
+    }
+
+    const where = cond.length ? 'WHERE ' + cond.join(' AND ') : '';
+
+    const sortMap = {
+        pret: 'pret',
+        autonomie: 'autonomie_km',
+        nrcompat: "(LENGTH(compatibilitati) - LENGTH(REPLACE(compatibilitati, ',', '')) + 1)",
+        data: 'data_introducerii'
+    };
+    const s1 = sortMap[sortCheie1] || 'pret';
+    const s2 = sortMap[sortCheie2] || 'id';
+    const dir = sortDir === 'desc' ? 'DESC' : 'ASC';
+
+    const pg = Math.max(1, Number(pagina) || 1);
+    const ppg = Math.max(1, Number(perPagina) || 6);
+    const offset = (pg - 1) * ppg;
+
+    const [[{ total }]] = await pool.query(`SELECT COUNT(*) AS total FROM produse ${where}`, vals);
+    const [produse] = await pool.query(
+        `SELECT * FROM produse ${where} ORDER BY ${s1} ${dir}, ${s2} ${dir} LIMIT ? OFFSET ?`,
+        [...vals, ppg, offset]
+    );
+
+    return { produse, total };
+}
+
+module.exports = { pool, getValoriEnum, getProduse, getProdusDupaId, getProdusNoi, getProduseSimilare, getProdusFiltrate };

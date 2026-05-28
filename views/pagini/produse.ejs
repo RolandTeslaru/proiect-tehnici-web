@@ -9,33 +9,21 @@
 <body id="top">
     <%- include("../fragmente/header") %>
 
-    <%
-    // e6b1 - atributele inputurilor (min/max range, optiunile datalist/radio/checkbox/select) sunt generate din datele din baza de date
-    // valorile pt inputuri le scot din produsele afisate, ca sa se potriveasca cu ce e in pagina
-    var preturi = produse.map(function(p){ return Number(p.pret); });
-    var minPret = preturi.length ? Math.floor(Math.min.apply(null, preturi)) : 0;
-    var maxPret = preturi.length ? Math.ceil(Math.max.apply(null, preturi)) : 0;
-
-    var autonomii = Array.from(new Set(produse.map(function(p){ return p.autonomie_km; }))).sort(function(a,b){ return a-b; });
-    var livrari = Array.from(new Set(produse.map(function(p){ return p.tip_livrare; })));
-    var clasificari = Array.from(new Set(produse.map(function(p){ return p.nivel_clasificare; })));
-
-    // compatibilitatile sunt valori multiple separate cu virgula -> le sparg si iau unicele
-    var setCompat = {};
-    produse.forEach(function(p){
-        p.compatibilitati.split(",").forEach(function(c){
-            c = c.trim();
-            if (c) setCompat[c] = true;
-        });
-    });
-    var compatibilitati = Object.keys(setCompat).sort();
-    %>
 
     <main class="layout-grid">
         <section id="zona-produse">
             <h2>
                 Catalog Produse<% if (locals.categorieCurenta) { %> &mdash; <%= categorieCurenta.charAt(0).toUpperCase() + categorieCurenta.slice(1) %><% } %>
             </h2>
+
+            <!-- e6b10 - switch client vs server-side -->
+            <div class="d-flex align-items-center gap-2 mb-3" id="switch-mod-filtrare">
+                <span class="form-check-label text-muted small">Client</span>
+                <div class="form-check form-switch mb-0">
+                    <input class="form-check-input" type="checkbox" id="switch-server" role="switch">
+                    <label class="form-check-label text-muted small" for="switch-server">Server (fetch)</label>
+                </div>
+            </div>
 
             <!-- sectiune de filtre, NU form (filtrarea se face in js pe client) -->
             <section id="filtre" aria-label="Filtre produse">
@@ -49,10 +37,13 @@
                         </div>
 
                         <div class="filtru">
-                            <label for="f-pret" class="form-label">
-                                Pret maxim
-                                <span class="text-muted">(<%= minPret %> &ndash; <%= maxPret %>, selectat: <span id="f-pret-val"><%= maxPret %></span>)</span>
+                            <label class="form-label">
+                                Pret
+                                <span class="text-muted">(selectat: <span id="f-pret-min-val"><%= minPret %></span> &ndash; <span id="f-pret-val"><%= maxPret %></span>)</span>
                             </label>
+                            <label for="f-pret-min" class="form-label small text-muted">Minim</label>
+                            <input type="range" id="f-pret-min" class="form-range" min="<%= minPret %>" max="<%= maxPret %>" value="<%= minPret %>" step="100">
+                            <label for="f-pret" class="form-label small text-muted">Maxim</label>
                             <input type="range" id="f-pret" class="form-range" min="<%= minPret %>" max="<%= maxPret %>" value="<%= maxPret %>" step="100">
                         </div>
 
@@ -69,6 +60,16 @@
                                 <textarea id="f-descriere" class="form-control" placeholder="cuvinte cheie" style="height: 90px"></textarea>
                                 <label for="f-descriere">Cuvinte cheie in descriere (separate cu virgula)</label>
                             </div>
+                        </div>
+
+                        <div class="filtru">
+                            <label for="f-nrcompat" class="form-label">Nr. minim compatibilitati</label>
+                            <input type="number" id="f-nrcompat" class="form-control form-control-sm" min="0" max="<%= compatibilitati.length %>" value="0" step="1">
+                        </div>
+
+                        <div class="filtru">
+                            <label for="f-data" class="form-label">Adaugat dupa data</label>
+                            <input type="date" id="f-data" class="form-control form-control-sm">
                         </div>
                     </div>
 
@@ -159,6 +160,11 @@
             <%/* e6b3 - mesaj afisat cand filtrarea nu returneaza niciun rezultat */%>
             <p id="mesaj-gol" class="ascuns">Nu exista produse conform filtrarii curente.</p>
 
+            <!-- e6b5 - paginare -->
+            <nav id="paginare" aria-label="Paginare produse" class="my-3">
+                <ul class="pagination justify-content-center flex-wrap gap-1" id="pagination-list"></ul>
+            </nav>
+
             <div id="lista-produse">
                 <% produse.forEach(function(produs) { %>
                     <%- include("../fragmente/_articolProdus", { produs: produs }) %>
@@ -173,8 +179,10 @@
         <div id="triunghi"></div>
     </a>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <%- include("../fragmente/_containerComparare") %>
     <script src="/resurse/js/produse.js"></script>
+    <script src="/resurse/js/oferta.js"></script>
+    <script src="/resurse/js/comparare.js"></script>
 </body>
 
 </html>

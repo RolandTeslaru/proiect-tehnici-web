@@ -1,0 +1,34 @@
+{
+  "oferte": [
+    {
+      "categorie": "aerian",
+      "data-incepere": "2026-06-05T13:14:05.737Z",
+      "data-finalizare": "2026-06-05T13:16:05.737Z",
+      "reducere": 30
+    },
+    {
+      "categorie": "terestru",
+      "data-incepere": "2026-06-05T13:12:05.735Z",
+      "data-finalizare": "2026-06-05T13:14:05.735Z",
+      "reducere": 50
+    },
+    {
+      "categorie": "aerian",
+      "data-incepere": "2026-06-05T13:10:05.733Z",
+      "data-finalizare": "2026-06-05T13:12:05.733Z",
+      "reducere": 50
+    },
+    {
+      "categorie": "tactic",
+      "data-incepere": "2026-06-05T13:07:51.220Z",
+      "data-finalizare": "2026-06-05T13:09:51.220Z",
+      "reducere": 35
+    },
+    {
+      "categorie": "terestru",
+      "data-incepere": "2026-06-05T13:03:54.958Z",
+      "data-finalizare": "2026-06-05T13:05:54.958Z",
+      "reducere": 45
+    }
+  ]
+}

@@ -1,16 +1,5 @@
-<%
-// e6b19 - orar de functionare, randat server-side ca fragment
-// indexul zilei: 0=Luni ... 5=Sambata, 6=Duminica (corespunde cu getDay() convertit in orar.js)
-var orar = [
-    { zi: "Luni",      start: 8,  end: 17 },
-    { zi: "Marti",     start: 8,  end: 17 },
-    { zi: "Miercuri",  start: 8,  end: 17 },
-    { zi: "Joi",       start: 8,  end: 17 },
-    { zi: "Vineri",    start: 8,  end: 15 },
-    { zi: "Sambata",   start: 9,  end: 13 },
-    { zi: "Duminica",  start: null, end: null }
-];
-%>
+<!-- e6b19 - orar de functionare, randat server-side ca fragment; datele vin din obGlobal.orar (index.js) -->
+<% var orar = obGlobal.orar; %>
 
 <div id="orar-overlay" aria-modal="true" role="dialog" aria-label="Orar de functionare" hidden>
     <div id="orar-panel">

@@ -21,9 +21,37 @@
 
     <main class="layout-grid">
         <section id="produs-detaliu" class="produs <%= produs.categorie %>">
-            <h2><%= produs.nume %></h2>
+            <!-- e6b20 - buton comparare pe pagina produsului -->
+            <div class="d-flex align-items-center gap-3 flex-wrap">
+                <h2 class="mb-0"><%= produs.nume %></h2>
+                <button class="btn-compara" data-id="<%= produs.id %>" data-nume="<%= produs.nume %>" title="Compară acest produs">Compară</button>
+            </div>
 
-            <img class="produs-imagine-mare" src="<%= produs.imagine %>" alt="<%= produs.nume %>">
+            <!-- e6b9 - carusel Bootstrap cu toate imaginile din folderul produsului -->
+            <% if (imagini.length > 1) { %>
+            <div id="carusel-produs" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <% imagini.forEach(function(img, i) { %>
+                        <button type="button" data-bs-target="#carusel-produs" data-bs-slide-to="<%= i %>" class="<%= i === 0 ? 'active' : '' %>"></button>
+                    <% }); %>
+                </div>
+                <div class="carousel-inner">
+                    <% imagini.forEach(function(img, i) { %>
+                        <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+                            <img src="<%= img %>" class="produs-imagine-mare d-block" alt="<%= produs.nume %>">
+                        </div>
+                    <% }); %>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carusel-produs" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carusel-produs" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+            <% } else { %>
+            <img class="produs-imagine-mare" src="<%= imagini[0] || produs.imagine %>" alt="<%= produs.nume %>">
+            <% } %>
 
             <p><%= produs.descriere %></p>
 
@@ -62,6 +90,9 @@
     </main>
 
     <%- include("../fragmente/footer") %>
+
+    <%- include("../fragmente/_containerComparare") %>
+    <script src="/resurse/js/comparare.js"></script>
 </body>
 
 </html>

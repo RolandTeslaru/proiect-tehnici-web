@@ -14,6 +14,23 @@
 <body id="top">
     <%- include("../fragmente/header") %>
 
+    <!-- e6b12 - anunt oferta curenta cu timer -->
+    <% if (locals.ofertaCurenta) { %>
+    <script>window.ofertaInitiala = <%- JSON.stringify(ofertaCurenta) %>;</script>
+    <% } %>
+    <section id="sectiune-oferta">
+        <div id="oferta-banner" class="<%= locals.ofertaCurenta ? '' : 'ascuns' %>">
+            <div class="oferta-titlu">Oferta Limitata Aegis</div>
+            <div class="oferta-detalii">
+                Reducere <strong><span id="oferta-reducere-val"><%= locals.ofertaCurenta ? ofertaCurenta.reducere : '' %></span>%</strong>
+                la categoria <strong><span id="oferta-categorie-val"><%= locals.ofertaCurenta ? ofertaCurenta.categorie : '' %></span></strong>
+            </div>
+            <div class="oferta-timp">
+                Expira in: <span id="oferta-timer" class="oferta-timer">--:--:--</span>
+            </div>
+        </div>
+    </section>
+
     <main class="layout-grid">
         <section id="viziune">
             <h3 class="zona-label">Zona 1</h3>
@@ -254,6 +271,8 @@
     <a href="#top" id="link-top" title="Inapoi la inceputul paginii">
         <div id="triunghi"></div>
     </a>
+
+    <script src="/resurse/js/oferta.js"></script>
 </body>
 
 </html>

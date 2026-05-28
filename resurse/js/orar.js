@@ -41,9 +41,13 @@
             }
         }
 
+        var timerId = null;
+
         btnOrar.addEventListener("click", function () {
             actualizeazaOrar();
             overlay.hidden = false;
+            clearTimeout(timerId);
+            timerId = setTimeout(function () { overlay.hidden = true; }, 5000);
         });
 
         btnInchide.addEventListener("click", function () {
